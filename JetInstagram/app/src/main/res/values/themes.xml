@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <style name="Theme.JetInstagram" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <item name="android:statusBarColor">@color/status_bar_color</item>
+    <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+    <item name="android:windowBackground">?attr/colorSurface</item>
+  </style>
+</resources>
