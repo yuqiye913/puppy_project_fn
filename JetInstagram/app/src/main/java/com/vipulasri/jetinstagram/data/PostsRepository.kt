@@ -17,18 +17,46 @@ object PostsRepository {
 
   private fun populatePosts() {
     val posts = ArrayList<Post>()
-    (0..9).forEach { index ->
+    val sampleTexts = arrayOf(
+      "Just had the most amazing coffee this morning! ☕️",
+      "Working on some exciting new features for our app. Can't wait to share! 💻",
+      "Beautiful sunset walk in the park today. Nature is truly healing 🌅",
+      "Finished reading an incredible book today. Highly recommend! 📚",
+      "Had a great workout session. Feeling energized and ready for the day! 💪",
+      "Cooking experiment tonight - trying a new recipe. Wish me luck! 👨‍🍳",
+      "Meeting with the team went really well. Great ideas flowing! 🤝",
+      "Just discovered this amazing new music artist. Can't stop listening! 🎵",
+      "Weekend plans: hiking, reading, and maybe some coding. Perfect! 🏔️",
+      "Reflecting on the week and feeling grateful for all the small moments ✨",
+      // Additional posts for better search testing
+      "Coffee lover here! Always looking for the best brew ☕️",
+      "Workout motivation: consistency is key 💪",
+      "Nature photography is my passion 📸",
+      "Coding late into the night again 💻",
+      "Music festival was incredible! 🎵"
+    )
+    
+    val extendedNames = arrayOf(
+      "storee", "nianyc", "opioke", "ashoke", "dark_emarlds",
+      "bedtan", "shrish", "matdo", "phillsohn", "deitch",
+      "coffee_lover", "workout_king", "nature_photographer", "code_master", "music_fan"
+    )
+    
+    (0..14).forEach { index ->
       val post = Post(
           id = index + 1,
-          image = "https://source.unsplash.com/random/400x300?$index",
+          title = "Post ${index + 1}", // Add title
+          text = sampleTexts[index],
           user = User(
-              name = names[index],
-              username = names[index],
-              image = "https://randomuser.me/api/portraits/men/${index + 1}.jpg"
+              id = (index + 2).toLong(), // Start from 2 since 1 is currentUser
+              name = extendedNames[index % extendedNames.size],
+              username = extendedNames[index % extendedNames.size],
+              image = "https://randomuser.me/api/portraits/men/${(index % 10) + 1}.jpg"
           ),
           likesCount = index + 100,
           commentsCount = index + 20,
-          timeStamp = System.currentTimeMillis() - (index * 60000)
+          timeStamp = System.currentTimeMillis() - (index * 60000),
+          bestComment = null // Remove mock comment
       )
       posts.add(post)
     }

@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
 import com.vipulasri.jetinstagram.ui.MainScreen
+import com.vipulasri.jetinstagram.ui.auth.AuthScreen
+import com.vipulasri.jetinstagram.ui.auth.AuthState
 import com.vipulasri.jetinstagram.ui.theme.JetInstagramTheme
 
 class MainActivity : AppCompatActivity() {
@@ -18,10 +21,19 @@ class MainActivity : AppCompatActivity() {
     this.setContent {
       JetInstagramTheme {
         Surface(color = MaterialTheme.colors.background) {
-          MainScreen()
+          AppContent()
         }
       }
     }
   }
+}
 
+@Composable
+@ExperimentalFoundationApi
+fun AppContent() {
+  if (AuthState.isLoggedIn) {
+    MainScreen()
+  } else {
+    AuthScreen()
+  }
 }

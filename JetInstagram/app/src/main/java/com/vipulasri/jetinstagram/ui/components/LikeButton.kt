@@ -36,7 +36,8 @@ private const val springRatio = Spring.DampingRatioHighBouncy
 @Composable
 fun AnimLikeButton(
   post: Post,
-  onLikeClick: (Post) -> Unit
+  onLikeClick: (Post) -> Unit,
+  onLikeToggle: ((Long, Boolean) -> Unit)? = null
 ) {
 
   var transitionState by remember {
@@ -49,6 +50,8 @@ fun AnimLikeButton(
         onClick = {
           transitionState = MutableTransitionState(LikeAnimationState.Start)
           onLikeClick.invoke(post)
+          // Call the like/unlike API based on current state
+          onLikeToggle?.invoke(post.id.toLong(), !post.isLiked)
         }
       )
       .indication(
@@ -60,32 +63,25 @@ fun AnimLikeButton(
     contentAlignment = Alignment.Center
   ) {
 
-    var likeIconRes by remember { mutableStateOf(R.drawable.ic_outlined_favorite) }
-    val startColor = contentColorFor(MaterialTheme.colors.background)
-    val endColor = Color(0xFFDF0707)
+    val likeIconRes = if (post.isLiked) {
+      R.drawable.ic_filled_favorite
+    } else {
+      R.drawable.ic_outlined_favorite
+    }
+
+    val iconColor = if (post.isLiked) {
+      println("DEBUG: Post ${post.id} is liked, using RED color")
+      Color.Red // Bright red color when liked
+    } else {
+      println("DEBUG: Post ${post.id} is NOT liked, using GRAY color")
+      Color.Gray // Gray color when not liked
+    }
 
     if (transitionState.currentState == LikeAnimationState.Start) {
       transitionState.targetState = LikeAnimationState.End
     }
 
     val transition = updateTransition(transitionState, label = "")
-
-    val animatedColor by transition.animateColor(
-      transitionSpec = {
-        when {
-          LikeAnimationState.Initial isTransitioningTo LikeAnimationState.Start ->
-            spring(dampingRatio = springRatio)
-          LikeAnimationState.Start isTransitioningTo LikeAnimationState.End ->
-            tween(200)
-          else -> snap()
-        }
-      }, label = ""
-    ) { state ->
-      when (state) {
-        LikeAnimationState.Initial -> if (post.isLiked) endColor else startColor
-        else -> if (post.isLiked.not()) startColor else endColor
-      }
-    }
 
     val size by transition.animateDp(
       transitionSpec = {
@@ -105,14 +101,9 @@ fun AnimLikeButton(
       }
     }
 
-    likeIconRes = if (post.isLiked) {
-      R.drawable.ic_filled_favorite
-    } else {
-      R.drawable.ic_outlined_favorite
-    }
-
     Icon(
-      ImageBitmap.imageResource(id = likeIconRes), tint = animatedColor,
+      ImageBitmap.imageResource(id = likeIconRes), 
+      tint = iconColor,
       modifier = Modifier.size(size),
       contentDescription = ""
     )
@@ -125,7 +116,8 @@ private fun LikeButtonPreview() {
   AnimLikeButton(
     post = Post(
       id = 1,
-      image = "https://source.unsplash.com/random/400x300",
+      title = "Coffee Post", // Add title
+      text = "Just had the most amazing coffee this morning! ☕️",
       user = User(
         name = names.first(),
         username = names.first(),
@@ -133,7 +125,8 @@ private fun LikeButtonPreview() {
       ),
       likesCount = 100,
       commentsCount = 20,
-      timeStamp = System.currentTimeMillis() - (60000)
+      timeStamp = System.currentTimeMillis() - (60000),
+      bestComment = null // Remove mock comment
     ),
     onLikeClick = {
     })
