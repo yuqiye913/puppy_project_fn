@@ -9,8 +9,10 @@ object RetrofitInstance {
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
+    private val tokenInterceptor = TokenInterceptor()
     private val client = OkHttpClient.Builder()
         .addInterceptor(logging)
+        .addInterceptor(tokenInterceptor)
         .build()
 
     val api: ApiService by lazy {

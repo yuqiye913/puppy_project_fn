@@ -84,7 +84,12 @@ fun AuthScreen() {
                             if (response.isSuccessful) {
                                 val loginResponse = response.body()
                                 if (loginResponse != null) {
-                                    AuthState.login(loginResponse.authenticationToken, loginResponse.username, loginResponse.userId)
+                                    AuthState.login(
+                                        loginResponse.authenticationToken, 
+                                        loginResponse.username, 
+                                        loginResponse.userId,
+                                        loginResponse.refreshToken
+                                    )
                                     Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
                                 } else {
                                     Toast.makeText(context, "Login failed: No response received", Toast.LENGTH_SHORT).show()

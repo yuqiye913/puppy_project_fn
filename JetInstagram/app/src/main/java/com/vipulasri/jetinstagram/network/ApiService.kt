@@ -21,6 +21,18 @@ data class LoginResponse(
     val userId: Long
 )
 
+data class RefreshTokenRequest(
+    val refreshToken: String,
+    val username: String
+)
+
+data class RefreshTokenResponse(
+    val authenticationToken: String,
+    val refreshToken: String,
+    val expiresAt: Double,
+    val username: String
+)
+
 data class BlockRequest(
     val blockedUserId: Long,
     val reason: String? = null
@@ -171,6 +183,11 @@ interface ApiService {
 
     @POST("/api/auth/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+
+    @POST("/api/auth/refresh/token")
+    suspend fun refreshToken(
+        @Body request: RefreshTokenRequest
+    ): Response<RefreshTokenResponse>
 
     @POST("/api/blocks")
     suspend fun blockUser(

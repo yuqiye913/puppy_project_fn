@@ -28,6 +28,9 @@ import com.vipulasri.jetinstagram.R
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -125,38 +128,14 @@ fun UserProfile(user: User, onBackClick: () -> Unit = {}, onPostClick: ((Post) -
                 actions = {
                     IconButton(
                         onClick = {
-                            scope.launch {
-                                val token = AuthState.currentToken?.let { "Bearer $it" }
-                                if (token == null) {
-                                    Toast.makeText(context, "Please login first", Toast.LENGTH_SHORT).show()
-                                    return@launch
-                                }
-                                
-                                val blockedUserId = user.id
-                                val request = BlockRequest(
-                                    blockedUserId = blockedUserId,
-                                    reason = "User requested block"
-                                )
-                                
-                                try {
-                                    val response = RetrofitInstance.api.blockUser(token, request)
-                                    if (response.isSuccessful) {
-                                        Toast.makeText(context, "User blocked successfully!", Toast.LENGTH_SHORT).show()
-                                        onBackClick() // Navigate back after blocking
-                                    } else {
-                                        Toast.makeText(context, "Failed to block user: ${response.code()}", Toast.LENGTH_SHORT).show()
-                                    }
-                                } catch (e: Exception) {
-                                    Toast.makeText(context, "Error: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-                                }
-                            }
+                            // Block functionality disabled - button does nothing
                         }
                     ) {
                         Icon(
                             ImageBitmap.imageResource(id = R.drawable.block),
-                            contentDescription = "Block user",
+                            contentDescription = "Block user (disabled)",
                             modifier = Modifier.size(24.dp),
-                            tint = Color.Black
+                            tint = Color.Gray
                         )
                     }
                 }
@@ -409,14 +388,22 @@ private fun ProfilePostsGrid(
     hasMorePages: Boolean,
     onPostClick: ((Post) -> Unit)? = null
 ) {
-    if (posts.isEmpty() && !isLoading) {
+    val coroutineScope = rememberCoroutineScope()
+    val postsState = remember { mutableStateListOf<Post>().apply { addAll(posts) } }
+
+    LaunchedEffect(posts) {
+        postsState.clear()
+        postsState.addAll(posts)
+    }
+
+    if (postsState.isEmpty() && !isLoading) {
         EmptyPostsState(user)
     } else {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState
         ) {
-            items(posts) { post ->
+            items(postsState) { post ->
                 PostView(
                     post = post,
                     onDoubleClick = { clickedPost ->
@@ -424,6 +411,31 @@ private fun ProfilePostsGrid(
                         onPostClick?.invoke(clickedPost)
                     },
                     onLikeToggle = { /* Handle like toggle */ },
+                    onLikeToggleApi = { postId, shouldLike ->
+                        coroutineScope.launch {
+                            val token = AuthState.currentToken
+                            if (token != null) {
+                                val result = if (shouldLike) {
+                                    com.vipulasri.jetinstagram.data.VoteRepository.likePost(postId, "Bearer $token")
+                                } else {
+                                    com.vipulasri.jetinstagram.data.VoteRepository.unlikePost(postId, "Bearer $token")
+                                }
+                                result.fold(
+                                    onSuccess = {
+                                        // Update the post state based on the action
+                                        val index = postsState.indexOfFirst { it.id.toLong() == postId }
+                                        if (index != -1) {
+                                            val currentPost = postsState[index]
+                                            val newLikedState = shouldLike
+                                            val newLikesCount = if (newLikedState) currentPost.likesCount + 1 else currentPost.likesCount - 1
+                                            postsState[index] = currentPost.copy(isLiked = newLikedState, likesCount = newLikesCount)
+                                        }
+                                    },
+                                    onFailure = { /* Optionally handle error */ }
+                                )
+                            }
+                        }
+                    },
                     onUserAvatarClick = { user ->
                         // This will be handled by MainScreen
                     },
