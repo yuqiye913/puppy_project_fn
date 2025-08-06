@@ -4,6 +4,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,6 +19,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.*
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.graphicsLayer
 import coil.compose.rememberImagePainter
 import com.vipulasri.jetinstagram.data.ProfileRepository
 import com.vipulasri.jetinstagram.model.Post
@@ -49,7 +53,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 
 @ExperimentalFoundationApi
 @Composable
-fun MyProfile(user: User, onBackClick: () -> Unit = {}, onPostClick: ((Post) -> Unit)? = null) {
+fun MyProfile(
+    user: User, 
+    onBackClick: () -> Unit = {}, 
+    onPostClick: ((Post) -> Unit)? = null,
+    onBlockedUsersClick: () -> Unit = {},
+    isViewingBlockedUsers: Boolean = false
+) {
     val userPosts by ProfileRepository.userPosts
     val isLoading by ProfileRepository.isLoading
     val error by ProfileRepository.error
@@ -88,50 +98,57 @@ fun MyProfile(user: User, onBackClick: () -> Unit = {}, onPostClick: ((Post) -> 
             }
     }
     
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                backgroundColor = Color.White,
-                elevation = 0.dp,
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.Black
+    if (isViewingBlockedUsers) {
+        // Show blocked users page
+        com.vipulasri.jetinstagram.ui.profile.BlockedUsersScreen(
+            onBackClick = onBackClick
+        )
+    } else {
+        // Show regular profile
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    backgroundColor = Color.White,
+                    elevation = 0.dp,
+                    navigationIcon = {
+                        IconButton(onClick = onBackClick) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Back",
+                                tint = Color.Black
+                            )
+                        }
+                    },
+                    title = {
+                        Text(
+                            text = user.username,
+                            style = MaterialTheme.typography.h6.copy(
+                                fontWeight = FontWeight.Bold
+                            ),
+                            color = Color.Black
                         )
+                    },
+                    actions = {
+                        IconButton(onClick = { /* Handle settings */ }) {
+                            Icon(
+                                ImageBitmap.imageResource(id = R.drawable.customized),
+                                contentDescription = "Settings",
+                                modifier = Modifier.size(24.dp),
+                                tint = Color.Black
+                            )
+                        }
+                        IconButton(onClick = { AuthState.logout() }) {
+                            Icon(
+                                imageVector = Icons.Default.ExitToApp,
+                                contentDescription = "Logout",
+                                modifier = Modifier.size(24.dp),
+                                tint = Color.Black
+                            )
+                        }
                     }
-                },
-                title = {
-                    Text(
-                        text = user.username,
-                        style = MaterialTheme.typography.h6.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        color = Color.Black
-                    )
-                },
-                actions = {
-                    IconButton(onClick = { /* Handle settings */ }) {
-                        Icon(
-                            ImageBitmap.imageResource(id = R.drawable.customized),
-                            contentDescription = "Settings",
-                            modifier = Modifier.size(24.dp),
-                            tint = Color.Black
-                        )
-                    }
-                    IconButton(onClick = { AuthState.logout() }) {
-                        Icon(
-                            imageVector = Icons.Default.ExitToApp,
-                            contentDescription = "Logout",
-                            modifier = Modifier.size(24.dp),
-                            tint = Color.Black
-                        )
-                    }
-                }
-            )
-        }
-    ) { paddingValues ->
+                )
+            }
+        ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -141,6 +158,7 @@ fun MyProfile(user: User, onBackClick: () -> Unit = {}, onPostClick: ((Post) -> 
             ProfileHeader(user)
             ProfileStats(userPosts.size, followerCount, followingCount, isLoadingCounts)
             ProfileBio(user)
+            ProfileSettings(onBlockedUsersClick)
             
             // Show error if any
             error?.let { errorMessage ->
@@ -153,6 +171,7 @@ fun MyProfile(user: User, onBackClick: () -> Unit = {}, onPostClick: ((Post) -> 
             }
             
             ProfilePostsGrid(userPosts, user, listState, isLoading, hasMorePages, onPostClick)
+        }
         }
     }
 }
@@ -283,6 +302,79 @@ private fun ProfileBio(user: User) {
                     ImageBitmap.imageResource(id = R.drawable.edit),
                     contentDescription = "Edit bio",
                     modifier = Modifier.size(20.dp),
+                    tint = Color.Gray
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ProfileSettings(onBlockedUsersClick: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        Text(
+            text = "Settings",
+            style = MaterialTheme.typography.h6.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+        
+        // Blocked Users Option
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(bounded = true)
+                ) { 
+                    println("MyProfile: Blocked users card clicked")
+                    onBlockedUsersClick() 
+                }
+                .padding(vertical = 4.dp),
+            elevation = 2.dp,
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    ImageBitmap.imageResource(id = R.drawable.block),
+                    contentDescription = "Blocked Users",
+                    modifier = Modifier.size(24.dp),
+                    tint = Color.Gray
+                )
+                
+                Spacer(modifier = Modifier.width(12.dp))
+                
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Blocked Users",
+                        style = MaterialTheme.typography.body1.copy(
+                            fontWeight = FontWeight.Medium
+                        ),
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "Manage users you've blocked",
+                        style = MaterialTheme.typography.caption,
+                        color = Color.Gray
+                    )
+                }
+                
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Navigate",
+                    modifier = Modifier
+                        .size(20.dp)
+                        .graphicsLayer(rotationZ = 180f),
                     tint = Color.Gray
                 )
             }

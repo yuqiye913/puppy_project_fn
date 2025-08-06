@@ -51,6 +51,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.rememberCoroutineScope
 import com.vipulasri.jetinstagram.data.ProfileRepository
 import com.vipulasri.jetinstagram.data.FollowRepository
+import com.vipulasri.jetinstagram.data.BlockRepository
 import com.vipulasri.jetinstagram.ui.home.PostView
 
 @ExperimentalFoundationApi
@@ -128,14 +129,25 @@ fun UserProfile(user: User, onBackClick: () -> Unit = {}, onPostClick: ((Post) -
                 actions = {
                     IconButton(
                         onClick = {
-                            // Block functionality disabled - button does nothing
+                            scope.launch {
+                                BlockRepository.blockUser(
+                                    userId = user.id.toLong(),
+                                    reason = null,
+                                    onSuccess = {
+                                        Toast.makeText(context, "User blocked successfully", Toast.LENGTH_SHORT).show()
+                                    },
+                                    onError = { error ->
+                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                                    }
+                                )
+                            }
                         }
                     ) {
                         Icon(
                             ImageBitmap.imageResource(id = R.drawable.block),
-                            contentDescription = "Block user (disabled)",
+                            contentDescription = "Block user",
                             modifier = Modifier.size(24.dp),
-                            tint = Color.Gray
+                            tint = Color.Black
                         )
                     }
                 }

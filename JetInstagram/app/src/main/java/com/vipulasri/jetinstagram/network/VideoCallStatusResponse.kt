@@ -1,0 +1,30 @@
+package com.vipulasri.jetinstagram.network
+
+data class VideoCallStatusResponse(
+    val sessionId: String?,
+    val callStatus: String?,
+    val callerId: Long?,
+    val receiverId: Long?,
+    val matchId: Long?,
+    val callType: String?,
+    val videoEnabled: Boolean = true,
+    val audioEnabled: Boolean = true,
+    val videoQuality: String?,
+    val audioQuality: String?,
+    val connectionQuality: String?,
+    val networkType: String?,
+    val deviceType: String?,
+    val bandwidth: String?,
+    val latency: String?,
+    val callerMuted: Boolean = false,
+    val receiverMuted: Boolean = false,
+    val callerVideoEnabled: Boolean = true,
+    val receiverVideoEnabled: Boolean = true,
+    val roomId: String?,
+    val peerId: String?,
+    val encrypted: Boolean = true,
+    val encryptionType: String?,
+    val hasError: Boolean = false,
+    val errorCode: String?,
+    val errorMessage: String?
+) 

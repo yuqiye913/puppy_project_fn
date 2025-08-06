@@ -7,6 +7,7 @@ import retrofit2.http.POST
 import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Query
 
 // Auth request/response data classes
@@ -38,15 +39,38 @@ data class BlockRequest(
     val reason: String? = null
 )
 
+data class UnblockRequest(
+    val blockedUserId: Long
+)
+
 data class BlockResponse(
     val blockId: Long,
     val blockerId: Long,
     val blockedUserId: Long,
     val blockerUsername: String,
     val blockedUserUsername: String,
+    val blockerDisplayName: String?,
+    val blockerProfilePicture: String?,
+    val blockedUserDisplayName: String?,
+    val blockedUserProfilePicture: String?,
     val reason: String?,
-    val blockedAt: Long,
-    val active: Boolean
+    val blockedAt: Long?, // Changed from java.time.Instant? to Long?
+    val isActive: Boolean,
+    val totalBlocksByUser: Long?,
+    val totalBlocksOfUser: Long?,
+    val isMutualBlock: Boolean?
+)
+
+data class BlockListResponse(
+    val blockedUsers: List<BlockResponse>,
+    val totalCount: Long,
+    val activeBlockCount: Long,
+    val hasMore: Boolean?,
+    val nextPage: Long?,
+    val currentPage: Long,
+    val pageSize: Long,
+    val totalBlocksByUser: Long,
+    val totalBlocksOfUser: Long
 )
 
 // Follower and Following count data classes
@@ -194,6 +218,64 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body request: BlockRequest
     ): Response<BlockResponse>
+
+    @POST("/api/blocks/unblock")
+    suspend fun unblockUser(
+        @Header("Authorization") token: String,
+        @Body request: UnblockRequest
+    ): Response<BlockResponse>
+
+    @GET("/api/blocks")
+    suspend fun getBlockedUsers(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int = 0,
+        @Query("size") size: Int = 10
+    ): Response<BlockListResponse>
+    
+    // Video Call Endpoints
+    @POST("/api/video-calls/initiate")
+    suspend fun initiateVideoCall(
+        @Header("Authorization") token: String,
+        @Body request: VideoCallRequest
+    ): Response<VideoCallResponse>
+    
+    @POST("/api/video-calls/{sessionId}/accept")
+    suspend fun acceptVideoCall(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String
+    ): Response<VideoCallResponse>
+    
+    @POST("/api/video-calls/{sessionId}/decline")
+    suspend fun declineVideoCall(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String,
+        @Query("reason") reason: String? = null
+    ): Response<Void>
+    
+    @POST("/api/video-calls/{sessionId}/end")
+    suspend fun endVideoCall(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String
+    ): Response<VideoCallResponse>
+    
+    @GET("/api/video-calls/{sessionId}/status")
+    suspend fun getVideoCallStatus(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String
+    ): Response<VideoCallStatusResponse>
+    
+    @PUT("/api/video-calls/{sessionId}/signaling")
+    suspend fun updateSignalingData(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String,
+        @Body signalingData: String
+    ): Response<Void>
+
+    @GET("/api/blocks/has-blocked/{userId}")
+    suspend fun hasBlockedUser(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Long
+    ): Response<Boolean>
 
     @GET("/api/posts")
     suspend fun getUserPosts(

@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.vipulasri.jetinstagram.data.FollowRepository
+import com.vipulasri.jetinstagram.data.BlockRepository
 
 object AuthState {
     var isLoggedIn by mutableStateOf(false)
@@ -37,6 +38,9 @@ object AuthState {
         
         // Clear follow statuses when user logs out
         FollowRepository.clearAllFollowStatuses()
+        
+        // Clear block data when user logs out
+        BlockRepository.clearData()
     }
     
     /**

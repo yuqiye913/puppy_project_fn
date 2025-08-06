@@ -39,8 +39,8 @@ import com.vipulasri.jetinstagram.ui.home.Home
 import com.vipulasri.jetinstagram.ui.search.Search
 import com.vipulasri.jetinstagram.ui.profile.UserProfile
 import com.vipulasri.jetinstagram.ui.profile.MyProfile
-import com.vipulasri.jetinstagram.ui.matching.Matching
-import com.vipulasri.jetinstagram.ui.matching.LonelyMatch
+import com.vipulasri.jetinstagram.ui.matching.Matching as MatchingScreen
+import com.vipulasri.jetinstagram.ui.matching.MatchingInProgress
 import com.vipulasri.jetinstagram.model.User
 import com.vipulasri.jetinstagram.ui.post.SinglePostScreen
 import com.vipulasri.jetinstagram.data.SinglePostRepository
@@ -52,9 +52,10 @@ fun MainScreen() {
     val coroutineScope = rememberCoroutineScope()
     val sectionState = remember { mutableStateOf(Home) }
     val isViewingProfile = remember { mutableStateOf(false) }
-    val isViewingLonelyMatch = remember { mutableStateOf(false) }
+
     val isViewingMatchingInProgress = remember { mutableStateOf(false) }
     val isViewingSinglePost = remember { mutableStateOf(false) }
+    val isViewingBlockedUsers = remember { mutableStateOf(false) }
     val currentProfileUser = remember { mutableStateOf<User?>(null) }
     val currentPost = remember { mutableStateOf<com.vipulasri.jetinstagram.model.Post?>(null) }
     val searchQuery = remember { mutableStateOf("") }
@@ -92,14 +93,18 @@ fun MainScreen() {
                     isViewingProfile.value = false
                     currentProfileUser.value = null
                 }
-                // Close lonely match view when navigating with bottom bar
-                if (isViewingLonelyMatch.value) {
-                    isViewingLonelyMatch.value = false
+                // Close matching in progress view when navigating with bottom bar
+                if (isViewingMatchingInProgress.value) {
+                    isViewingMatchingInProgress.value = false
                 }
                 // Close single post view when navigating with bottom bar
                 if (isViewingSinglePost.value) {
                     isViewingSinglePost.value = false
                     currentPost.value = null
+                }
+                // Close blocked users view when navigating with bottom bar
+                if (isViewingBlockedUsers.value) {
+                    isViewingBlockedUsers.value = false
                 }
             },
         )
@@ -110,12 +115,13 @@ fun MainScreen() {
         targetState = when {
             isViewingSinglePost.value -> "singlePost"
             isViewingProfile.value -> "profile"
-            isViewingLonelyMatch.value -> "lonelyMatch"
+
             isViewingMatchingInProgress.value -> "matchingInProgress"
             else -> sectionState.value.toString()
         }.also { state ->
             println("MainScreen: Current state determined as: $state")
-            println("MainScreen: State values - isViewingProfile: ${isViewingProfile.value}, isViewingLonelyMatch: ${isViewingLonelyMatch.value}, isViewingMatchingInProgress: ${isViewingMatchingInProgress.value}, isViewingSinglePost: ${isViewingSinglePost.value}, currentPost: ${currentPost.value?.id}")
+            println("MainScreen: State values - isViewingProfile: ${isViewingProfile.value}, isViewingMatchingInProgress: ${isViewingMatchingInProgress.value}, isViewingSinglePost: ${isViewingSinglePost.value}, isViewingBlockedUsers: ${isViewingBlockedUsers.value}, currentPost: ${currentPost.value?.id}")
+            println("MainScreen: Crossfade target state: $state")
         })
     { currentState ->
         when (currentState) {
@@ -125,8 +131,14 @@ fun MainScreen() {
                     MyProfile(
                         user = user,
                         onBackClick = { 
-                            isViewingProfile.value = false
-                            currentProfileUser.value = null
+                            if (isViewingBlockedUsers.value) {
+                                // If viewing blocked users, go back to profile
+                                isViewingBlockedUsers.value = false
+                            } else {
+                                // If viewing profile, go back to main
+                                isViewingProfile.value = false
+                                currentProfileUser.value = null
+                            }
                         },
                         onPostClick = { post ->
                             println("MainScreen: MyProfile post clicked: ${post.id}")
@@ -135,7 +147,13 @@ fun MainScreen() {
                             println("MainScreen: Setting isViewingSinglePost to true")
                             isViewingSinglePost.value = true
                             println("MainScreen: Current state after click - isViewingSinglePost: ${isViewingSinglePost.value}, currentPost: ${currentPost.value?.id}")
-                        }
+                        },
+                        onBlockedUsersClick = {
+                            println("MainScreen: Blocked users clicked, setting isViewingBlockedUsers to true")
+                            isViewingBlockedUsers.value = true
+                            println("MainScreen: isViewingBlockedUsers is now: ${isViewingBlockedUsers.value}")
+                        },
+                        isViewingBlockedUsers = isViewingBlockedUsers.value
                     )
                 } else {
                     UserProfile(
@@ -155,21 +173,13 @@ fun MainScreen() {
                     )
                 }
             }
-            "lonelyMatch" -> LonelyMatch(
-                onBackClick = { 
-                    isViewingLonelyMatch.value = false
-                },
-                onStartMatchingNow = {
-                    isViewingLonelyMatch.value = false
-                    isViewingMatchingInProgress.value = true
-                }
-            )
+
             "matchingInProgress" -> com.vipulasri.jetinstagram.ui.matching.MatchingInProgress(
                 onStopMatching = {
                     isViewingMatchingInProgress.value = false
-                    isViewingLonelyMatch.value = true
                 }
             )
+
             "singlePost" -> {
                 println("MainScreen: Entering singlePost case")
                 val post = currentPost.value
@@ -284,13 +294,55 @@ fun MainScreen() {
                             isViewingSinglePost.value = true
                         }
                     )
-                    Matching -> Matching(
-                        onLonelyMatchClick = {
-                            isViewingLonelyMatch.value = true
+                    HomeSection.Matching -> {
+                        if (isViewingMatchingInProgress.value) {
+                            MatchingInProgress(
+                                onStopMatching = {
+                                    isViewingMatchingInProgress.value = false
+                                },
+                                onAcceptMatch = { matchId ->
+                                    // TODO: Handle accept match
+                                    println("Accepting match $matchId")
+                                },
+                                onDeclineMatch = { matchId ->
+                                    // TODO: Handle decline match
+                                    println("Declining match $matchId")
+                                },
+                                onStartVideoCall = { matchId, userId ->
+                                    // TODO: Navigate to video call screen
+                                    println("Starting video call for match $matchId with user $userId")
+                                },
+                                onStartVoiceCall = { matchId, userId ->
+                                    // TODO: Navigate to voice call screen
+                                    println("Starting voice call for match $matchId with user $userId")
+                                }
+                            )
+                        } else {
+                            MatchingScreen(
+                                onLonelyMatchClick = {
+                                    isViewingMatchingInProgress.value = true
+                                },
+                                onStartVideoCall = { matchId, userId ->
+                                    // TODO: Navigate to video call screen
+                                    println("Starting video call for match $matchId with user $userId")
+                                },
+                                onStartVoiceCall = { matchId, userId ->
+                                    // TODO: Navigate to voice call screen
+                                    println("Starting voice call for match $matchId with user $userId")
+                                },
+                                onAcceptMatch = { matchId ->
+                                    // TODO: Handle accept match
+                                    println("Accepting match $matchId")
+                                },
+                                onDeclineMatch = { matchId ->
+                                    // TODO: Handle decline match
+                                    println("Declining match $matchId")
+                                }
+                            )
                         }
-                    )
-                    Add -> com.vipulasri.jetinstagram.ui.upload.Upload()
-                    Search -> Search(
+                    }
+                    HomeSection.Add -> com.vipulasri.jetinstagram.ui.upload.Upload()
+                    HomeSection.Search -> Search(
                         initialQuery = searchQuery.value,
                         onHashtagClick = { hashtag ->
                             // Strip the # symbol for search since backend stores subreddits without #
@@ -309,7 +361,7 @@ fun MainScreen() {
                             isViewingSinglePost.value = true
                         }
                     )
-                    Profile -> {
+                    HomeSection.Profile -> {
                         currentProfileUser.value = currentUser
                         isViewingProfile.value = true
                     }
