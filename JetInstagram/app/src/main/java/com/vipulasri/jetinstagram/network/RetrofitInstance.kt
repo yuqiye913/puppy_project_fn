@@ -17,7 +17,7 @@ object RetrofitInstance {
 
     val api: ApiService by lazy {
         Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080/api/") // Android emulator special IP
+            .baseUrl("https://backend-production-fae6.up.railway.app/api/") // Railway production URL
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
