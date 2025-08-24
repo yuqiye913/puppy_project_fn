@@ -77,8 +77,20 @@ dependencies {
   // WebRTC for video calling
   implementation 'io.pristine:libjingle:11139@aar'
 
-  androidTestImplementation Libs.junit
-  androidTestImplementation Libs.AndroidX.Test.core
-  androidTestImplementation Libs.AndroidX.Test.Ext.junit
-  androidTestImplementation Libs.AndroidX.Test.rules
+  // Testing Dependencies
+  testImplementation 'junit:junit:4.13.2'
+  testImplementation 'org.mockito:mockito-core:5.8.0'
+  testImplementation 'org.mockito.kotlin:mockito-kotlin:5.2.1'
+  testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
+  
+  // Android Testing Dependencies
+  androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+  androidTestImplementation 'androidx.test:core:1.5.0'
+  androidTestImplementation 'androidx.test:rules:1.5.0'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+  androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.5.4'
+  
+  // Debug Dependencies for Testing
+  debugImplementation 'androidx.compose.ui:ui-test-manifest:1.5.4'
+  debugImplementation 'androidx.compose.ui:ui-tooling:1.5.4'
 }

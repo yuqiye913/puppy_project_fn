@@ -7,6 +7,7 @@ import com.vipulasri.jetinstagram.model.User
 import com.vipulasri.jetinstagram.network.RetrofitInstance
 import com.vipulasri.jetinstagram.network.ErrorHandler
 import com.vipulasri.jetinstagram.ui.auth.AuthState
+import com.vipulasri.jetinstagram.data.VoteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -135,6 +136,54 @@ object ProfileRepository {
         }
     }
     
+    suspend fun votePost(postId: Long, shouldLike: Boolean) {
+        val token = AuthState.currentToken
+        if (token == null) {
+            _error.value = "User not authenticated"
+            return
+        }
+
+        try {
+            val result = if (shouldLike) {
+                VoteRepository.likePost(postId, "Bearer $token")
+            } else {
+                VoteRepository.unlikePost(postId, "Bearer $token")
+            }
+
+            result.fold(
+                onSuccess = {
+                    updatePostVoteState(postId, shouldLike)
+                },
+                onFailure = { exception ->
+                    _error.value = "Failed to ${if (shouldLike) "like" else "unlike"}: ${exception.message}"
+                }
+            )
+        } catch (e: Exception) {
+            _error.value = "Error ${if (shouldLike) "liking" else "unliking"}: ${e.message}"
+        }
+    }
+
+    private fun updatePostVoteState(postId: Long, isLiked: Boolean) {
+        val currentPosts = _userPosts.value.toMutableList()
+        val postIndex = currentPosts.indexOfFirst { it.id.toLong() == postId }
+        
+        if (postIndex != -1) {
+            val post = currentPosts[postIndex]
+            val newLikesCount = if (isLiked) {
+                post.likesCount + 1
+            } else {
+                post.likesCount - 1
+            }
+            
+            currentPosts[postIndex] = post.copy(
+                isLiked = isLiked,
+                likesCount = newLikesCount
+            )
+            
+            _userPosts.value = currentPosts
+        }
+    }
+
     fun clearError() {
         _error.value = null
     }

@@ -1,0 +1,782 @@
+[18:44:15] [SYSTEM] Checking matching system status...
+[18:44:15] [aa] Authenticating...
+[18:44:15] [aa] ✓ Authentication successful (ID: 1)
+[18:44:15] [SYSTEM] ✗ Failed to get system status
+[18:44:15] [MAIN] Starting two user simulation...
+[18:44:15] [MAIN] Authenticating users...
+[18:44:15] [aa] Authenticating...
+[18:44:15] [aa] ✓ Authentication successful (ID: 1)
+[18:44:15] [bb] Authenticating...
+[18:44:15] [bb] ✓ Authentication successful (ID: 3)
+[18:44:15] [MAIN] Creating video call requests...
+[18:44:15] [aa] Creating video call request...
+[18:44:15] [aa] ✗ Failed to create request
+[18:44:15] [bb] Creating video call request...
+[18:44:15] [bb] ✗ Failed to create request
+[18:44:15] [MAIN] Both users are now in queue. Starting monitoring...
+[18:44:15] [MAIN] Press Ctrl+C to stop monitoring
+[18:44:15] [bb] Starting to monitor request: [0;34m[18:44:15] [bb] Creating video call request...[0m
+[0;31m[18:44:15] [bb] ✗ Failed to create request[0m
+[18:44:15] [aa] Starting to monitor request: [0;34m[18:44:15] [aa] Creating video call request...[0m
+[0;31m[18:44:15] [aa] ✗ Failed to create request[0m
+[18:44:15] [bb] Maximum wait time: 300 seconds
+[18:44:15] [aa] Maximum wait time: 300 seconds
+[18:44:15] [bb] DTO: status=, position=, matched=, session=
+[18:44:15] [aa] DTO: status=, position=, matched=, session=
+[18:44:15] [bb] ❓ Unknown status: 
+[18:44:15] [aa] ❓ Unknown status: 
+[18:44:18] [bb] DTO: status=, position=, matched=, session=
+[18:44:18] [aa] DTO: status=, position=, matched=, session=
+[18:44:18] [aa] ❓ Unknown status: 
+[18:44:18] [bb] ❓ Unknown status: 
+[18:44:20] [bb] DTO: status=, position=, matched=, session=
+[18:44:20] [aa] DTO: status=, position=, matched=, session=
+[18:44:20] [aa] ❓ Unknown status: 
+[18:44:20] [bb] ❓ Unknown status: 
+[18:44:22] [aa] DTO: status=, position=, matched=, session=
+[18:44:22] [bb] DTO: status=, position=, matched=, session=
+[18:44:22] [aa] ❓ Unknown status: 
+[18:44:22] [bb] ❓ Unknown status: 
+[18:44:24] [aa] DTO: status=, position=, matched=, session=
+[18:44:24] [bb] DTO: status=, position=, matched=, session=
+[18:44:24] [aa] ❓ Unknown status: 
+[18:44:24] [bb] ❓ Unknown status: 
+[18:44:26] [bb] DTO: status=, position=, matched=, session=
+[18:44:26] [aa] DTO: status=, position=, matched=, session=
+[18:44:26] [bb] ❓ Unknown status: 
+[18:44:26] [aa] ❓ Unknown status: 
+[18:44:28] [bb] DTO: status=, position=, matched=, session=
+[18:44:28] [aa] DTO: status=, position=, matched=, session=
+[18:44:28] [bb] ❓ Unknown status: 
+[18:44:28] [aa] ❓ Unknown status: 
+[18:44:30] [bb] DTO: status=, position=, matched=, session=
+[18:44:30] [aa] DTO: status=, position=, matched=, session=
+[18:44:30] [aa] ❓ Unknown status: 
+[18:44:30] [bb] ❓ Unknown status: 
+[18:44:32] [aa] DTO: status=, position=, matched=, session=
+[18:44:32] [bb] DTO: status=, position=, matched=, session=
+[18:44:32] [bb] ❓ Unknown status: 
+[18:44:32] [aa] ❓ Unknown status: 
+[18:44:35] [bb] DTO: status=, position=, matched=, session=
+[18:44:35] [aa] DTO: status=, position=, matched=, session=
+[18:44:35] [aa] ❓ Unknown status: 
+[18:44:35] [bb] ❓ Unknown status: 
+[18:44:37] [bb] DTO: status=, position=, matched=, session=
+[18:44:37] [aa] DTO: status=, position=, matched=, session=
+[18:44:37] [aa] ❓ Unknown status: 
+[18:44:37] [bb] ❓ Unknown status: 
+[18:44:38] [MAIN] Received interrupt signal. Stopping...
+[18:44:39] [aa] DTO: status=, position=, matched=, session=
+[18:44:39] [bb] DTO: status=, position=, matched=, session=
+[18:44:39] [aa] ❓ Unknown status: 
+[18:44:39] [bb] ❓ Unknown status: 
+[18:44:41] [bb] DTO: status=, position=, matched=, session=
+[18:44:41] [aa] DTO: status=, position=, matched=, session=
+[18:44:41] [bb] ❓ Unknown status: 
+[18:44:41] [aa] ❓ Unknown status: 
+[18:44:43] [bb] DTO: status=, position=, matched=, session=
+[18:44:43] [aa] DTO: status=, position=, matched=, session=
+[18:44:43] [aa] ❓ Unknown status: 
+[18:44:43] [bb] ❓ Unknown status: 
+[18:44:45] [bb] DTO: status=, position=, matched=, session=
+[18:44:45] [aa] DTO: status=, position=, matched=, session=
+[18:44:45] [bb] ❓ Unknown status: 
+[18:44:45] [aa] ❓ Unknown status: 
+[18:44:47] [bb] DTO: status=, position=, matched=, session=
+[18:44:47] [aa] DTO: status=, position=, matched=, session=
+[18:44:47] [bb] ❓ Unknown status: 
+[18:44:47] [aa] ❓ Unknown status: 
+[18:44:50] [bb] DTO: status=, position=, matched=, session=
+[18:44:50] [aa] DTO: status=, position=, matched=, session=
+[18:44:50] [aa] ❓ Unknown status: 
+[18:44:50] [bb] ❓ Unknown status: 
+[18:44:52] [bb] DTO: status=, position=, matched=, session=
+[18:44:52] [aa] DTO: status=, position=, matched=, session=
+[18:44:52] [bb] ❓ Unknown status: 
+[18:44:52] [aa] ❓ Unknown status: 
+[18:44:54] [bb] DTO: status=, position=, matched=, session=
+[18:44:54] [aa] DTO: status=, position=, matched=, session=
+[18:44:54] [bb] ❓ Unknown status: 
+[18:44:54] [aa] ❓ Unknown status: 
+[18:44:56] [aa] DTO: status=, position=, matched=, session=
+[18:44:56] [bb] DTO: status=, position=, matched=, session=
+[18:44:56] [aa] ❓ Unknown status: 
+[18:44:56] [bb] ❓ Unknown status: 
+[18:44:58] [bb] DTO: status=, position=, matched=, session=
+[18:44:58] [aa] DTO: status=, position=, matched=, session=
+[18:44:58] [bb] ❓ Unknown status: 
+[18:44:58] [aa] ❓ Unknown status: 
+[18:45:00] [aa] DTO: status=, position=, matched=, session=
+[18:45:00] [bb] DTO: status=, position=, matched=, session=
+[18:45:00] [aa] ❓ Unknown status: 
+[18:45:00] [bb] ❓ Unknown status: 
+[18:45:02] [aa] DTO: status=, position=, matched=, session=
+[18:45:02] [bb] DTO: status=, position=, matched=, session=
+[18:45:02] [aa] ❓ Unknown status: 
+[18:45:02] [bb] ❓ Unknown status: 
+[18:45:04] [bb] DTO: status=, position=, matched=, session=
+[18:45:04] [aa] DTO: status=, position=, matched=, session=
+[18:45:04] [bb] ❓ Unknown status: 
+[18:45:04] [aa] ❓ Unknown status: 
+[18:45:07] [aa] DTO: status=, position=, matched=, session=
+[18:45:07] [bb] DTO: status=, position=, matched=, session=
+[18:45:07] [aa] ❓ Unknown status: 
+[18:45:07] [bb] ❓ Unknown status: 
+[18:45:09] [bb] DTO: status=, position=, matched=, session=
+[18:45:09] [aa] DTO: status=, position=, matched=, session=
+[18:45:09] [bb] ❓ Unknown status: 
+[18:45:09] [aa] ❓ Unknown status: 
+[18:45:11] [aa] DTO: status=, position=, matched=, session=
+[18:45:11] [bb] DTO: status=, position=, matched=, session=
+[18:45:11] [aa] ❓ Unknown status: 
+[18:45:11] [bb] ❓ Unknown status: 
+[18:45:13] [aa] DTO: status=, position=, matched=, session=
+[18:45:13] [bb] DTO: status=, position=, matched=, session=
+[18:45:13] [aa] ❓ Unknown status: 
+[18:45:13] [bb] ❓ Unknown status: 
+[18:45:15] [aa] DTO: status=, position=, matched=, session=
+[18:45:15] [bb] DTO: status=, position=, matched=, session=
+[18:45:15] [aa] ❓ Unknown status: 
+[18:45:15] [bb] ❓ Unknown status: 
+[18:45:17] [bb] DTO: status=, position=, matched=, session=
+[18:45:17] [aa] DTO: status=, position=, matched=, session=
+[18:45:17] [bb] ❓ Unknown status: 
+[18:45:17] [aa] ❓ Unknown status: 
+[18:45:19] [aa] DTO: status=, position=, matched=, session=
+[18:45:19] [bb] DTO: status=, position=, matched=, session=
+[18:45:19] [aa] ❓ Unknown status: 
+[18:45:19] [bb] ❓ Unknown status: 
+[18:45:21] [bb] DTO: status=, position=, matched=, session=
+[18:45:21] [aa] DTO: status=, position=, matched=, session=
+[18:45:21] [bb] ❓ Unknown status: 
+[18:45:21] [aa] ❓ Unknown status: 
+[18:45:24] [aa] DTO: status=, position=, matched=, session=
+[18:45:24] [bb] DTO: status=, position=, matched=, session=
+[18:45:24] [aa] ❓ Unknown status: 
+[18:45:24] [bb] ❓ Unknown status: 
+[18:45:26] [bb] DTO: status=, position=, matched=, session=
+[18:45:26] [aa] DTO: status=, position=, matched=, session=
+[18:45:26] [bb] ❓ Unknown status: 
+[18:45:26] [aa] ❓ Unknown status: 
+[18:45:28] [bb] DTO: status=, position=, matched=, session=
+[18:45:28] [aa] DTO: status=, position=, matched=, session=
+[18:45:28] [bb] ❓ Unknown status: 
+[18:45:28] [aa] ❓ Unknown status: 
+[18:45:30] [aa] DTO: status=, position=, matched=, session=
+[18:45:30] [bb] DTO: status=, position=, matched=, session=
+[18:45:30] [aa] ❓ Unknown status: 
+[18:45:30] [bb] ❓ Unknown status: 
+[18:45:32] [aa] DTO: status=, position=, matched=, session=
+[18:45:32] [bb] DTO: status=, position=, matched=, session=
+[18:45:32] [aa] ❓ Unknown status: 
+[18:45:32] [bb] ❓ Unknown status: 
+[18:45:34] [aa] DTO: status=, position=, matched=, session=
+[18:45:34] [bb] DTO: status=, position=, matched=, session=
+[18:45:34] [aa] ❓ Unknown status: 
+[18:45:34] [bb] ❓ Unknown status: 
+[18:45:36] [bb] DTO: status=, position=, matched=, session=
+[18:45:36] [aa] DTO: status=, position=, matched=, session=
+[18:45:36] [bb] ❓ Unknown status: 
+[18:45:36] [aa] ❓ Unknown status: 
+[18:45:39] [aa] DTO: status=, position=, matched=, session=
+[18:45:39] [bb] DTO: status=, position=, matched=, session=
+[18:45:39] [aa] ❓ Unknown status: 
+[18:45:39] [bb] ❓ Unknown status: 
+[18:45:41] [aa] DTO: status=, position=, matched=, session=
+[18:45:41] [aa] ❓ Unknown status: 
+[18:45:41] [bb] DTO: status=, position=, matched=, session=
+[18:45:41] [bb] ❓ Unknown status: 
+[18:45:43] [aa] DTO: status=, position=, matched=, session=
+[18:45:43] [bb] DTO: status=, position=, matched=, session=
+[18:45:43] [aa] ❓ Unknown status: 
+[18:45:43] [bb] ❓ Unknown status: 
+[18:45:45] [bb] DTO: status=, position=, matched=, session=
+[18:45:45] [aa] DTO: status=, position=, matched=, session=
+[18:45:45] [bb] ❓ Unknown status: 
+[18:45:45] [aa] ❓ Unknown status: 
+[18:45:47] [bb] DTO: status=, position=, matched=, session=
+[18:45:47] [aa] DTO: status=, position=, matched=, session=
+[18:45:47] [bb] ❓ Unknown status: 
+[18:45:47] [aa] ❓ Unknown status: 
+[18:45:49] [bb] DTO: status=, position=, matched=, session=
+[18:45:49] [aa] DTO: status=, position=, matched=, session=
+[18:45:49] [bb] ❓ Unknown status: 
+[18:45:49] [aa] ❓ Unknown status: 
+[18:45:51] [aa] DTO: status=, position=, matched=, session=
+[18:45:51] [bb] DTO: status=, position=, matched=, session=
+[18:45:51] [aa] ❓ Unknown status: 
+[18:45:51] [bb] ❓ Unknown status: 
+[18:45:53] [bb] DTO: status=, position=, matched=, session=
+[18:45:53] [aa] DTO: status=, position=, matched=, session=
+[18:45:53] [bb] ❓ Unknown status: 
+[18:45:53] [aa] ❓ Unknown status: 
+[18:45:56] [bb] DTO: status=, position=, matched=, session=
+[18:45:56] [aa] DTO: status=, position=, matched=, session=
+[18:45:56] [bb] ❓ Unknown status: 
+[18:45:56] [aa] ❓ Unknown status: 
+[18:45:58] [aa] DTO: status=, position=, matched=, session=
+[18:45:58] [bb] DTO: status=, position=, matched=, session=
+[18:45:58] [aa] ❓ Unknown status: 
+[18:45:58] [bb] ❓ Unknown status: 
+[18:46:00] [bb] DTO: status=, position=, matched=, session=
+[18:46:00] [aa] DTO: status=, position=, matched=, session=
+[18:46:00] [bb] ❓ Unknown status: 
+[18:46:00] [aa] ❓ Unknown status: 
+[18:46:02] [aa] DTO: status=, position=, matched=, session=
+[18:46:02] [bb] DTO: status=, position=, matched=, session=
+[18:46:02] [aa] ❓ Unknown status: 
+[18:46:02] [bb] ❓ Unknown status: 
+[18:46:04] [aa] DTO: status=, position=, matched=, session=
+[18:46:04] [bb] DTO: status=, position=, matched=, session=
+[18:46:04] [bb] ❓ Unknown status: 
+[18:46:04] [aa] ❓ Unknown status: 
+[18:46:06] [aa] DTO: status=, position=, matched=, session=
+[18:46:06] [bb] DTO: status=, position=, matched=, session=
+[18:46:06] [aa] ❓ Unknown status: 
+[18:46:06] [bb] ❓ Unknown status: 
+[18:46:08] [aa] DTO: status=, position=, matched=, session=
+[18:46:08] [bb] DTO: status=, position=, matched=, session=
+[18:46:08] [aa] ❓ Unknown status: 
+[18:46:08] [bb] ❓ Unknown status: 
+[18:46:10] [bb] DTO: status=, position=, matched=, session=
+[18:46:10] [aa] DTO: status=, position=, matched=, session=
+[18:46:10] [aa] ❓ Unknown status: 
+[18:46:10] [bb] ❓ Unknown status: 
+[18:46:13] [aa] DTO: status=, position=, matched=, session=
+[18:46:13] [bb] DTO: status=, position=, matched=, session=
+[18:46:13] [aa] ❓ Unknown status: 
+[18:46:13] [bb] ❓ Unknown status: 
+[18:46:15] [aa] DTO: status=, position=, matched=, session=
+[18:46:15] [bb] DTO: status=, position=, matched=, session=
+[18:46:15] [aa] ❓ Unknown status: 
+[18:46:15] [bb] ❓ Unknown status: 
+[18:46:17] [aa] DTO: status=, position=, matched=, session=
+[18:46:17] [bb] DTO: status=, position=, matched=, session=
+[18:46:17] [aa] ❓ Unknown status: 
+[18:46:17] [bb] ❓ Unknown status: 
+[18:46:19] [bb] DTO: status=, position=, matched=, session=
+[18:46:19] [aa] DTO: status=, position=, matched=, session=
+[18:46:19] [aa] ❓ Unknown status: 
+[18:46:19] [bb] ❓ Unknown status: 
+[18:46:21] [aa] DTO: status=, position=, matched=, session=
+[18:46:21] [bb] DTO: status=, position=, matched=, session=
+[18:46:21] [aa] ❓ Unknown status: 
+[18:46:21] [bb] ❓ Unknown status: 
+[18:46:23] [bb] DTO: status=, position=, matched=, session=
+[18:46:23] [aa] DTO: status=, position=, matched=, session=
+[18:46:23] [bb] ❓ Unknown status: 
+[18:46:23] [aa] ❓ Unknown status: 
+[18:46:25] [bb] DTO: status=, position=, matched=, session=
+[18:46:25] [aa] DTO: status=, position=, matched=, session=
+[18:46:25] [bb] ❓ Unknown status: 
+[18:46:25] [aa] ❓ Unknown status: 
+[18:46:27] [bb] DTO: status=, position=, matched=, session=
+[18:46:27] [aa] DTO: status=, position=, matched=, session=
+[18:46:27] [bb] ❓ Unknown status: 
+[18:46:27] [aa] ❓ Unknown status: 
+[18:46:30] [aa] DTO: status=, position=, matched=, session=
+[18:46:30] [bb] DTO: status=, position=, matched=, session=
+[18:46:30] [aa] ❓ Unknown status: 
+[18:46:30] [bb] ❓ Unknown status: 
+[18:46:32] [aa] DTO: status=, position=, matched=, session=
+[18:46:32] [bb] DTO: status=, position=, matched=, session=
+[18:46:32] [aa] ❓ Unknown status: 
+[18:46:32] [bb] ❓ Unknown status: 
+[18:46:34] [aa] DTO: status=, position=, matched=, session=
+[18:46:34] [bb] DTO: status=, position=, matched=, session=
+[18:46:34] [aa] ❓ Unknown status: 
+[18:46:34] [bb] ❓ Unknown status: 
+[18:46:36] [bb] DTO: status=, position=, matched=, session=
+[18:46:36] [aa] DTO: status=, position=, matched=, session=
+[18:46:36] [aa] ❓ Unknown status: 
+[18:46:36] [bb] ❓ Unknown status: 
+[18:46:38] [aa] DTO: status=, position=, matched=, session=
+[18:46:38] [bb] DTO: status=, position=, matched=, session=
+[18:46:38] [aa] ❓ Unknown status: 
+[18:46:38] [bb] ❓ Unknown status: 
+[18:46:40] [bb] DTO: status=, position=, matched=, session=
+[18:46:40] [aa] DTO: status=, position=, matched=, session=
+[18:46:40] [bb] ❓ Unknown status: 
+[18:46:40] [aa] ❓ Unknown status: 
+[18:46:42] [aa] DTO: status=, position=, matched=, session=
+[18:46:42] [bb] DTO: status=, position=, matched=, session=
+[18:46:42] [aa] ❓ Unknown status: 
+[18:46:42] [bb] ❓ Unknown status: 
+[18:46:44] [aa] DTO: status=, position=, matched=, session=
+[18:46:44] [bb] DTO: status=, position=, matched=, session=
+[18:46:44] [bb] ❓ Unknown status: 
+[18:46:44] [aa] ❓ Unknown status: 
+[18:46:47] [bb] DTO: status=, position=, matched=, session=
+[18:46:47] [aa] DTO: status=, position=, matched=, session=
+[18:46:47] [aa] ❓ Unknown status: 
+[18:46:47] [bb] ❓ Unknown status: 
+[18:46:49] [aa] DTO: status=, position=, matched=, session=
+[18:46:49] [bb] DTO: status=, position=, matched=, session=
+[18:46:49] [bb] ❓ Unknown status: 
+[18:46:49] [aa] ❓ Unknown status: 
+[18:46:51] [aa] DTO: status=, position=, matched=, session=
+[18:46:51] [bb] DTO: status=, position=, matched=, session=
+[18:46:51] [aa] ❓ Unknown status: 
+[18:46:51] [bb] ❓ Unknown status: 
+[18:46:53] [bb] DTO: status=, position=, matched=, session=
+[18:46:53] [aa] DTO: status=, position=, matched=, session=
+[18:46:53] [bb] ❓ Unknown status: 
+[18:46:53] [aa] ❓ Unknown status: 
+[18:46:55] [aa] DTO: status=, position=, matched=, session=
+[18:46:55] [bb] DTO: status=, position=, matched=, session=
+[18:46:55] [aa] ❓ Unknown status: 
+[18:46:55] [bb] ❓ Unknown status: 
+[18:46:57] [aa] DTO: status=, position=, matched=, session=
+[18:46:57] [bb] DTO: status=, position=, matched=, session=
+[18:46:57] [bb] ❓ Unknown status: 
+[18:46:57] [aa] ❓ Unknown status: 
+[18:46:59] [aa] DTO: status=, position=, matched=, session=
+[18:46:59] [bb] DTO: status=, position=, matched=, session=
+[18:46:59] [aa] ❓ Unknown status: 
+[18:46:59] [bb] ❓ Unknown status: 
+[18:47:02] [bb] DTO: status=, position=, matched=, session=
+[18:47:02] [aa] DTO: status=, position=, matched=, session=
+[18:47:02] [aa] ❓ Unknown status: 
+[18:47:02] [bb] ❓ Unknown status: 
+[18:47:04] [aa] DTO: status=, position=, matched=, session=
+[18:47:04] [bb] DTO: status=, position=, matched=, session=
+[18:47:04] [aa] ❓ Unknown status: 
+[18:47:04] [bb] ❓ Unknown status: 
+[18:47:06] [aa] DTO: status=, position=, matched=, session=
+[18:47:06] [bb] DTO: status=, position=, matched=, session=
+[18:47:06] [aa] ❓ Unknown status: 
+[18:47:06] [bb] ❓ Unknown status: 
+[18:47:08] [aa] DTO: status=, position=, matched=, session=
+[18:47:08] [bb] DTO: status=, position=, matched=, session=
+[18:47:08] [bb] ❓ Unknown status: 
+[18:47:08] [aa] ❓ Unknown status: 
+[18:47:10] [bb] DTO: status=, position=, matched=, session=
+[18:47:10] [aa] DTO: status=, position=, matched=, session=
+[18:47:10] [bb] ❓ Unknown status: 
+[18:47:10] [aa] ❓ Unknown status: 
+[18:47:12] [aa] DTO: status=, position=, matched=, session=
+[18:47:12] [bb] DTO: status=, position=, matched=, session=
+[18:47:12] [aa] ❓ Unknown status: 
+[18:47:12] [bb] ❓ Unknown status: 
+[18:47:14] [aa] DTO: status=, position=, matched=, session=
+[18:47:14] [bb] DTO: status=, position=, matched=, session=
+[18:47:14] [bb] ❓ Unknown status: 
+[18:47:14] [aa] ❓ Unknown status: 
+[18:47:16] [aa] DTO: status=, position=, matched=, session=
+[18:47:16] [bb] DTO: status=, position=, matched=, session=
+[18:47:16] [bb] ❓ Unknown status: 
+[18:47:16] [aa] ❓ Unknown status: 
+[18:47:19] [aa] DTO: status=, position=, matched=, session=
+[18:47:19] [bb] DTO: status=, position=, matched=, session=
+[18:47:19] [aa] ❓ Unknown status: 
+[18:47:19] [bb] ❓ Unknown status: 
+[18:47:21] [bb] DTO: status=, position=, matched=, session=
+[18:47:21] [aa] DTO: status=, position=, matched=, session=
+[18:47:21] [bb] ❓ Unknown status: 
+[18:47:21] [aa] ❓ Unknown status: 
+[18:47:23] [bb] DTO: status=, position=, matched=, session=
+[18:47:23] [aa] DTO: status=, position=, matched=, session=
+[18:47:23] [bb] ❓ Unknown status: 
+[18:47:23] [aa] ❓ Unknown status: 
+[18:47:25] [aa] DTO: status=, position=, matched=, session=
+[18:47:25] [bb] DTO: status=, position=, matched=, session=
+[18:47:25] [bb] ❓ Unknown status: 
+[18:47:25] [aa] ❓ Unknown status: 
+[18:47:27] [bb] DTO: status=, position=, matched=, session=
+[18:47:27] [aa] DTO: status=, position=, matched=, session=
+[18:47:27] [bb] ❓ Unknown status: 
+[18:47:27] [aa] ❓ Unknown status: 
+[18:47:29] [aa] DTO: status=, position=, matched=, session=
+[18:47:29] [bb] DTO: status=, position=, matched=, session=
+[18:47:29] [bb] ❓ Unknown status: 
+[18:47:29] [aa] ❓ Unknown status: 
+[18:47:31] [bb] DTO: status=, position=, matched=, session=
+[18:47:31] [aa] DTO: status=, position=, matched=, session=
+[18:47:31] [bb] ❓ Unknown status: 
+[18:47:31] [aa] ❓ Unknown status: 
+[18:47:33] [aa] DTO: status=, position=, matched=, session=
+[18:47:33] [bb] DTO: status=, position=, matched=, session=
+[18:47:33] [aa] ❓ Unknown status: 
+[18:47:33] [bb] ❓ Unknown status: 
+[18:47:36] [aa] DTO: status=, position=, matched=, session=
+[18:47:36] [bb] DTO: status=, position=, matched=, session=
+[18:47:36] [aa] ❓ Unknown status: 
+[18:47:36] [bb] ❓ Unknown status: 
+[18:47:38] [aa] DTO: status=, position=, matched=, session=
+[18:47:38] [bb] DTO: status=, position=, matched=, session=
+[18:47:38] [aa] ❓ Unknown status: 
+[18:47:38] [bb] ❓ Unknown status: 
+[18:47:40] [bb] DTO: status=, position=, matched=, session=
+[18:47:40] [aa] DTO: status=, position=, matched=, session=
+[18:47:40] [bb] ❓ Unknown status: 
+[18:47:40] [aa] ❓ Unknown status: 
+[18:47:42] [bb] DTO: status=, position=, matched=, session=
+[18:47:42] [aa] DTO: status=, position=, matched=, session=
+[18:47:42] [aa] ❓ Unknown status: 
+[18:47:42] [bb] ❓ Unknown status: 
+[18:47:44] [aa] DTO: status=, position=, matched=, session=
+[18:47:44] [bb] DTO: status=, position=, matched=, session=
+[18:47:44] [aa] ❓ Unknown status: 
+[18:47:44] [bb] ❓ Unknown status: 
+[18:47:46] [bb] DTO: status=, position=, matched=, session=
+[18:47:46] [aa] DTO: status=, position=, matched=, session=
+[18:47:46] [bb] ❓ Unknown status: 
+[18:47:46] [aa] ❓ Unknown status: 
+[18:47:48] [aa] DTO: status=, position=, matched=, session=
+[18:47:48] [bb] DTO: status=, position=, matched=, session=
+[18:47:48] [aa] ❓ Unknown status: 
+[18:47:48] [bb] ❓ Unknown status: 
+[18:47:50] [bb] DTO: status=, position=, matched=, session=
+[18:47:50] [aa] DTO: status=, position=, matched=, session=
+[18:47:50] [aa] ❓ Unknown status: 
+[18:47:50] [bb] ❓ Unknown status: 
+[18:47:53] [aa] DTO: status=, position=, matched=, session=
+[18:47:53] [bb] DTO: status=, position=, matched=, session=
+[18:47:53] [bb] ❓ Unknown status: 
+[18:47:53] [aa] ❓ Unknown status: 
+[18:47:55] [bb] DTO: status=, position=, matched=, session=
+[18:47:55] [bb] ❓ Unknown status: 
+[18:47:55] [aa] DTO: status=, position=, matched=, session=
+[18:47:55] [aa] ❓ Unknown status: 
+[18:47:57] [aa] DTO: status=, position=, matched=, session=
+[18:47:57] [bb] DTO: status=, position=, matched=, session=
+[18:47:57] [aa] ❓ Unknown status: 
+[18:47:57] [bb] ❓ Unknown status: 
+[18:47:59] [aa] DTO: status=, position=, matched=, session=
+[18:47:59] [bb] DTO: status=, position=, matched=, session=
+[18:47:59] [aa] ❓ Unknown status: 
+[18:47:59] [bb] ❓ Unknown status: 
+[18:48:01] [bb] DTO: status=, position=, matched=, session=
+[18:48:01] [aa] DTO: status=, position=, matched=, session=
+[18:48:01] [aa] ❓ Unknown status: 
+[18:48:01] [bb] ❓ Unknown status: 
+[18:48:04] [bb] DTO: status=, position=, matched=, session=
+[18:48:04] [bb] ❓ Unknown status: 
+[18:48:04] [aa] DTO: status=, position=, matched=, session=
+[18:48:04] [aa] ❓ Unknown status: 
+[18:48:06] [aa] DTO: status=, position=, matched=, session=
+[18:48:06] [bb] DTO: status=, position=, matched=, session=
+[18:48:06] [aa] ❓ Unknown status: 
+[18:48:06] [bb] ❓ Unknown status: 
+[18:48:08] [bb] DTO: status=, position=, matched=, session=
+[18:48:08] [aa] DTO: status=, position=, matched=, session=
+[18:48:08] [aa] ❓ Unknown status: 
+[18:48:08] [bb] ❓ Unknown status: 
+[18:48:10] [bb] DTO: status=, position=, matched=, session=
+[18:48:10] [aa] DTO: status=, position=, matched=, session=
+[18:48:10] [aa] ❓ Unknown status: 
+[18:48:10] [bb] ❓ Unknown status: 
+[18:48:12] [aa] DTO: status=, position=, matched=, session=
+[18:48:12] [bb] DTO: status=, position=, matched=, session=
+[18:48:12] [bb] ❓ Unknown status: 
+[18:48:12] [aa] ❓ Unknown status: 
+[18:48:14] [aa] DTO: status=, position=, matched=, session=
+[18:48:14] [bb] DTO: status=, position=, matched=, session=
+[18:48:14] [aa] ❓ Unknown status: 
+[18:48:14] [bb] ❓ Unknown status: 
+[18:48:16] [bb] DTO: status=, position=, matched=, session=
+[18:48:16] [aa] DTO: status=, position=, matched=, session=
+[18:48:16] [bb] ❓ Unknown status: 
+[18:48:16] [aa] ❓ Unknown status: 
+[18:48:18] [bb] DTO: status=, position=, matched=, session=
+[18:48:18] [aa] DTO: status=, position=, matched=, session=
+[18:48:18] [bb] ❓ Unknown status: 
+[18:48:18] [aa] ❓ Unknown status: 
+[18:48:21] [aa] DTO: status=, position=, matched=, session=
+[18:48:21] [bb] DTO: status=, position=, matched=, session=
+[18:48:21] [aa] ❓ Unknown status: 
+[18:48:21] [bb] ❓ Unknown status: 
+[18:48:23] [aa] DTO: status=, position=, matched=, session=
+[18:48:23] [bb] DTO: status=, position=, matched=, session=
+[18:48:23] [bb] ❓ Unknown status: 
+[18:48:23] [aa] ❓ Unknown status: 
+[18:48:25] [aa] DTO: status=, position=, matched=, session=
+[18:48:25] [bb] DTO: status=, position=, matched=, session=
+[18:48:25] [aa] ❓ Unknown status: 
+[18:48:25] [bb] ❓ Unknown status: 
+[18:48:27] [bb] DTO: status=, position=, matched=, session=
+[18:48:27] [aa] DTO: status=, position=, matched=, session=
+[18:48:27] [bb] ❓ Unknown status: 
+[18:48:27] [aa] ❓ Unknown status: 
+[18:48:29] [bb] DTO: status=, position=, matched=, session=
+[18:48:29] [aa] DTO: status=, position=, matched=, session=
+[18:48:29] [bb] ❓ Unknown status: 
+[18:48:29] [aa] ❓ Unknown status: 
+[18:48:31] [aa] DTO: status=, position=, matched=, session=
+[18:48:31] [bb] DTO: status=, position=, matched=, session=
+[18:48:31] [aa] ❓ Unknown status: 
+[18:48:31] [bb] ❓ Unknown status: 
+[18:48:33] [bb] DTO: status=, position=, matched=, session=
+[18:48:33] [aa] DTO: status=, position=, matched=, session=
+[18:48:33] [bb] ❓ Unknown status: 
+[18:48:33] [aa] ❓ Unknown status: 
+[18:48:35] [bb] DTO: status=, position=, matched=, session=
+[18:48:35] [aa] DTO: status=, position=, matched=, session=
+[18:48:35] [bb] ❓ Unknown status: 
+[18:48:35] [aa] ❓ Unknown status: 
+[18:48:38] [bb] DTO: status=, position=, matched=, session=
+[18:48:38] [aa] DTO: status=, position=, matched=, session=
+[18:48:38] [bb] ❓ Unknown status: 
+[18:48:38] [aa] ❓ Unknown status: 
+[18:48:40] [aa] DTO: status=, position=, matched=, session=
+[18:48:40] [bb] DTO: status=, position=, matched=, session=
+[18:48:40] [aa] ❓ Unknown status: 
+[18:48:40] [bb] ❓ Unknown status: 
+[18:48:42] [aa] DTO: status=, position=, matched=, session=
+[18:48:42] [bb] DTO: status=, position=, matched=, session=
+[18:48:42] [bb] ❓ Unknown status: 
+[18:48:42] [aa] ❓ Unknown status: 
+[18:48:44] [bb] DTO: status=, position=, matched=, session=
+[18:48:44] [aa] DTO: status=, position=, matched=, session=
+[18:48:44] [bb] ❓ Unknown status: 
+[18:48:44] [aa] ❓ Unknown status: 
+[18:48:46] [bb] DTO: status=, position=, matched=, session=
+[18:48:46] [aa] DTO: status=, position=, matched=, session=
+[18:48:46] [bb] ❓ Unknown status: 
+[18:48:46] [aa] ❓ Unknown status: 
+[18:48:48] [bb] DTO: status=, position=, matched=, session=
+[18:48:48] [aa] DTO: status=, position=, matched=, session=
+[18:48:48] [aa] ❓ Unknown status: 
+[18:48:48] [bb] ❓ Unknown status: 
+[18:48:50] [bb] DTO: status=, position=, matched=, session=
+[18:48:50] [aa] DTO: status=, position=, matched=, session=
+[18:48:50] [bb] ❓ Unknown status: 
+[18:48:50] [aa] ❓ Unknown status: 
+[18:48:53] [aa] DTO: status=, position=, matched=, session=
+[18:48:53] [bb] DTO: status=, position=, matched=, session=
+[18:48:53] [bb] ❓ Unknown status: 
+[18:48:53] [aa] ❓ Unknown status: 
+[18:48:55] [bb] DTO: status=, position=, matched=, session=
+[18:48:55] [aa] DTO: status=, position=, matched=, session=
+[18:48:55] [aa] ❓ Unknown status: 
+[18:48:55] [bb] ❓ Unknown status: 
+[18:48:57] [bb] DTO: status=, position=, matched=, session=
+[18:48:57] [aa] DTO: status=, position=, matched=, session=
+[18:48:57] [bb] ❓ Unknown status: 
+[18:48:57] [aa] ❓ Unknown status: 
+[18:48:59] [bb] DTO: status=, position=, matched=, session=
+[18:48:59] [aa] DTO: status=, position=, matched=, session=
+[18:48:59] [aa] ❓ Unknown status: 
+[18:48:59] [bb] ❓ Unknown status: 
+[18:49:01] [bb] DTO: status=, position=, matched=, session=
+[18:49:01] [aa] DTO: status=, position=, matched=, session=
+[18:49:01] [aa] ❓ Unknown status: 
+[18:49:01] [bb] ❓ Unknown status: 
+[18:49:03] [bb] DTO: status=, position=, matched=, session=
+[18:49:03] [aa] DTO: status=, position=, matched=, session=
+[18:49:03] [aa] ❓ Unknown status: 
+[18:49:03] [bb] ❓ Unknown status: 
+[18:49:05] [bb] DTO: status=, position=, matched=, session=
+[18:49:05] [aa] DTO: status=, position=, matched=, session=
+[18:49:05] [bb] ❓ Unknown status: 
+[18:49:05] [aa] ❓ Unknown status: 
+[18:49:07] [bb] DTO: status=, position=, matched=, session=
+[18:49:07] [aa] DTO: status=, position=, matched=, session=
+[18:49:07] [bb] ❓ Unknown status: 
+[18:49:07] [aa] ❓ Unknown status: 
+[18:49:10] [aa] DTO: status=, position=, matched=, session=
+[18:49:10] [bb] DTO: status=, position=, matched=, session=
+[18:49:10] [bb] ❓ Unknown status: 
+[18:49:10] [aa] ❓ Unknown status: 
+[18:49:12] [aa] DTO: status=, position=, matched=, session=
+[18:49:12] [bb] DTO: status=, position=, matched=, session=
+[18:49:12] [aa] ❓ Unknown status: 
+[18:49:12] [bb] ❓ Unknown status: 
+[18:49:14] [aa] DTO: status=, position=, matched=, session=
+[18:49:14] [bb] DTO: status=, position=, matched=, session=
+[18:49:14] [aa] ❓ Unknown status: 
+[18:49:14] [bb] ❓ Unknown status: 
+[18:49:16] [aa] DTO: status=, position=, matched=, session=
+[18:49:16] [bb] DTO: status=, position=, matched=, session=
+[18:49:16] [aa] ❓ Unknown status: 
+[18:49:16] [bb] ❓ Unknown status: 
+[18:49:18] [aa] DTO: status=, position=, matched=, session=
+[18:49:18] [bb] DTO: status=, position=, matched=, session=
+[18:49:18] [bb] ❓ Unknown status: 
+[18:49:18] [aa] ❓ Unknown status: 
+[18:49:20] [bb] DTO: status=, position=, matched=, session=
+[18:49:20] [aa] DTO: status=, position=, matched=, session=
+[18:49:20] [bb] ❓ Unknown status: 
+[18:49:20] [aa] ❓ Unknown status: 
+[18:49:22] [aa] DTO: status=, position=, matched=, session=
+[18:49:22] [bb] DTO: status=, position=, matched=, session=
+[18:49:22] [bb] ❓ Unknown status: 
+[18:49:22] [aa] ❓ Unknown status: 
+[18:49:25] [aa] DTO: status=, position=, matched=, session=
+[18:49:25] [bb] DTO: status=, position=, matched=, session=
+[18:49:25] [bb] ❓ Unknown status: 
+[18:49:25] [aa] ❓ Unknown status: 
+[18:49:27] [bb] DTO: status=, position=, matched=, session=
+[18:49:27] [aa] DTO: status=, position=, matched=, session=
+[18:49:27] [aa] ❓ Unknown status: 
+[18:49:27] [bb] ❓ Unknown status: 
+[18:49:29] [bb] DTO: status=, position=, matched=, session=
+[18:49:29] [aa] DTO: status=, position=, matched=, session=
+[18:49:29] [bb] ❓ Unknown status: 
+[18:49:29] [aa] ❓ Unknown status: 
+[18:49:31] [bb] DTO: status=, position=, matched=, session=
+[18:49:31] [aa] DTO: status=, position=, matched=, session=
+[18:49:31] [aa] ❓ Unknown status: 
+[18:49:31] [bb] ❓ Unknown status: 
+[18:49:33] [bb] DTO: status=, position=, matched=, session=
+[18:49:33] [aa] DTO: status=, position=, matched=, session=
+[18:49:33] [bb] ❓ Unknown status: 
+[18:49:33] [aa] ❓ Unknown status: 
+[18:49:35] [bb] ⏰ TIMEOUT! Maximum attempts reached
+[18:49:35] [aa] ⏰ TIMEOUT! Maximum attempts reached
+[18:50:52] [SYSTEM] Checking matching system status...
+[18:50:52] [aa] Authenticating...
+[18:50:52] [aa] ✓ Authentication successful (ID: 1)
+[18:50:52] [SYSTEM] ✗ Failed to get system status
+[18:50:52] [MAIN] Starting two user simulation...
+[18:50:52] [MAIN] Authenticating users...
+[18:50:52] [aa] Authenticating...
+[18:50:53] [aa] ✓ Authentication successful (ID: 1)
+[18:50:53] [bb] Authenticating...
+[18:50:53] [bb] ✓ Authentication successful (ID: 3)
+[18:50:53] [MAIN] Creating video call requests...
+[18:50:53] [aa] Creating video call request...
+[18:50:53] [aa] ✗ Failed to create request
+[18:50:53] [bb] Creating video call request...
+[18:50:53] [bb] ✗ Failed to create request
+[18:50:53] [MAIN] Both users are now in queue. Starting monitoring...
+[18:50:53] [MAIN] Press Ctrl+C to stop monitoring
+[18:50:53] [aa] Starting to monitor request: [0;34m[18:50:53] [aa] Creating video call request...[0m
+[0;31m[18:50:53] [aa] ✗ Failed to create request[0m
+[18:50:53] [bb] Starting to monitor request: [0;34m[18:50:53] [bb] Creating video call request...[0m
+[0;31m[18:50:53] [bb] ✗ Failed to create request[0m
+[18:50:53] [aa] Maximum wait time: 300 seconds
+[18:50:53] [bb] Maximum wait time: 300 seconds
+[18:50:53] [bb] DTO: status=, position=, matched=, session=
+[18:50:53] [aa] DTO: status=, position=, matched=, session=
+[18:50:53] [bb] ❓ Unknown status: 
+[18:50:53] [aa] ❓ Unknown status: 
+[18:50:55] [bb] DTO: status=, position=, matched=, session=
+[18:50:55] [aa] DTO: status=, position=, matched=, session=
+[18:50:55] [bb] ❓ Unknown status: 
+[18:50:55] [aa] ❓ Unknown status: 
+[18:50:57] [bb] DTO: status=, position=, matched=, session=
+[18:50:57] [aa] DTO: status=, position=, matched=, session=
+[18:50:57] [bb] ❓ Unknown status: 
+[18:50:57] [aa] ❓ Unknown status: 
+[18:50:59] [MAIN] Received interrupt signal. Stopping...
+[18:50:59] [aa] DTO: status=, position=, matched=, session=
+[18:50:59] [bb] DTO: status=, position=, matched=, session=
+[18:50:59] [aa] ❓ Unknown status: 
+[18:50:59] [bb] ❓ Unknown status: 
+[18:51:01] [bb] DTO: status=, position=, matched=, session=
+[18:51:01] [aa] DTO: status=, position=, matched=, session=
+[18:51:01] [bb] ❓ Unknown status: 
+[18:51:01] [aa] ❓ Unknown status: 
+[18:51:04] [aa] DTO: status=, position=, matched=, session=
+[18:51:04] [bb] DTO: status=, position=, matched=, session=
+[18:51:04] [aa] ❓ Unknown status: 
+[18:51:04] [bb] ❓ Unknown status: 
+[18:51:06] [bb] DTO: status=, position=, matched=, session=
+[18:51:06] [aa] DTO: status=, position=, matched=, session=
+[18:51:06] [aa] ❓ Unknown status: 
+[18:51:06] [bb] ❓ Unknown status: 
+[18:51:08] [bb] DTO: status=, position=, matched=, session=
+[18:51:08] [aa] DTO: status=, position=, matched=, session=
+[18:51:08] [aa] ❓ Unknown status: 
+[18:51:08] [bb] ❓ Unknown status: 
+[18:51:10] [aa] DTO: status=, position=, matched=, session=
+[18:51:10] [bb] DTO: status=, position=, matched=, session=
+[18:51:10] [aa] ❓ Unknown status: 
+[18:51:10] [bb] ❓ Unknown status: 
+[18:51:12] [aa] DTO: status=, position=, matched=, session=
+[18:51:12] [bb] DTO: status=, position=, matched=, session=
+[18:51:12] [aa] ❓ Unknown status: 
+[18:51:12] [bb] ❓ Unknown status: 
+[18:51:14] [aa] DTO: status=, position=, matched=, session=
+[18:51:14] [bb] DTO: status=, position=, matched=, session=
+[18:51:14] [bb] ❓ Unknown status: 
+[18:51:14] [aa] ❓ Unknown status: 
+[18:51:16] [aa] DTO: status=, position=, matched=, session=
+[18:51:16] [bb] DTO: status=, position=, matched=, session=
+[18:51:16] [bb] ❓ Unknown status: 
+[18:51:16] [aa] ❓ Unknown status: 
+[18:51:18] [aa] DTO: status=, position=, matched=, session=
+[18:51:18] [bb] DTO: status=, position=, matched=, session=
+[18:51:18] [aa] ❓ Unknown status: 
+[18:51:18] [bb] ❓ Unknown status: 
+[18:51:23] [SYSTEM] Checking matching system status...
+[18:51:23] [aa] Authenticating...
+[18:51:23] [aa] ✓ Authentication successful (ID: 1)
+[18:51:23] [SYSTEM] ✗ Failed to get system status
+[18:51:23] [MAIN] Starting two user simulation...
+[18:51:23] [MAIN] Authenticating users...
+[18:51:23] [aa] Authenticating...
+[18:51:23] [aa] ✓ Authentication successful (ID: 1)
+[18:51:23] [bb] Authenticating...
+[18:51:23] [bb] ✓ Authentication successful (ID: 3)
+[18:51:23] [MAIN] Creating video call requests...
+[18:51:23] [aa] Creating video call request...
+[18:51:23] [aa] ✗ Failed to create request
+[18:51:24] [bb] Creating video call request...
+[18:51:24] [bb] ✗ Failed to create request
+[18:51:24] [MAIN] Both users are now in queue. Starting monitoring...
+[18:51:24] [MAIN] Press Ctrl+C to stop monitoring
+[18:51:24] [aa] Starting to monitor request: [0;34m[18:51:23] [aa] Creating video call request...[0m
+[0;31m[18:51:23] [aa] ✗ Failed to create request[0m
+[18:51:24] [bb] Starting to monitor request: [0;34m[18:51:24] [bb] Creating video call request...[0m
+[0;31m[18:51:24] [bb] ✗ Failed to create request[0m
+[18:51:24] [aa] Maximum wait time: 300 seconds
+[18:51:24] [bb] Maximum wait time: 300 seconds
+[18:51:24] [aa] DTO: status=, position=, matched=, session=
+[18:51:24] [bb] DTO: status=, position=, matched=, session=
+[18:51:24] [aa] ❓ Unknown status: 
+[18:51:24] [bb] ❓ Unknown status: 
+[18:51:26] [bb] DTO: status=, position=, matched=, session=
+[18:51:26] [aa] DTO: status=, position=, matched=, session=
+[18:51:26] [aa] ❓ Unknown status: 
+[18:51:26] [bb] ❓ Unknown status: 
+[18:51:28] [bb] DTO: status=, position=, matched=, session=
+[18:51:28] [aa] DTO: status=, position=, matched=, session=
+[18:51:28] [bb] ❓ Unknown status: 
+[18:51:28] [aa] ❓ Unknown status: 
+[18:51:30] [aa] DTO: status=, position=, matched=, session=
+[18:51:30] [bb] DTO: status=, position=, matched=, session=
+[18:51:30] [aa] ❓ Unknown status: 
+[18:51:30] [bb] ❓ Unknown status: 
+[18:51:32] [aa] DTO: status=, position=, matched=, session=
+[18:51:32] [bb] DTO: status=, position=, matched=, session=
+[18:51:32] [aa] ❓ Unknown status: 
+[18:51:32] [bb] ❓ Unknown status: 
+[18:51:34] [aa] DTO: status=, position=, matched=, session=
+[18:51:34] [bb] DTO: status=, position=, matched=, session=
+[18:51:34] [aa] ❓ Unknown status: 
+[18:51:34] [bb] ❓ Unknown status: 
+[18:51:35] [MAIN] Received interrupt signal. Stopping...
+[18:51:36] [aa] DTO: status=, position=, matched=, session=
+[18:51:36] [bb] DTO: status=, position=, matched=, session=
+[18:51:36] [aa] ❓ Unknown status: 
+[18:51:36] [bb] ❓ Unknown status: 
+[18:51:39] [bb] DTO: status=, position=, matched=, session=
+[18:51:39] [aa] DTO: status=, position=, matched=, session=
+[18:51:39] [bb] ❓ Unknown status: 
+[18:51:39] [aa] ❓ Unknown status: 
+[18:51:41] [bb] DTO: status=, position=, matched=, session=
+[18:51:41] [aa] DTO: status=, position=, matched=, session=
+[18:51:41] [aa] ❓ Unknown status: 
+[18:51:41] [bb] ❓ Unknown status: 
+[18:51:43] [bb] DTO: status=, position=, matched=, session=
+[18:51:43] [aa] DTO: status=, position=, matched=, session=
+[18:51:43] [bb] ❓ Unknown status: 
+[18:51:43] [aa] ❓ Unknown status: 
+[18:51:45] [bb] DTO: status=, position=, matched=, session=
+[18:51:45] [aa] DTO: status=, position=, matched=, session=
+[18:51:45] [bb] ❓ Unknown status: 
+[18:51:45] [aa] ❓ Unknown status: 
+[18:51:47] [bb] DTO: status=, position=, matched=, session=
+[18:51:47] [aa] DTO: status=, position=, matched=, session=
+[18:51:47] [bb] ❓ Unknown status: 
+[18:51:47] [aa] ❓ Unknown status: 
+[18:51:49] [bb] DTO: status=, position=, matched=, session=
+[18:51:49] [aa] DTO: status=, position=, matched=, session=
+[18:51:49] [bb] ❓ Unknown status: 
+[18:51:49] [aa] ❓ Unknown status: 
+[18:51:51] [aa] DTO: status=, position=, matched=, session=
+[18:51:51] [bb] DTO: status=, position=, matched=, session=
+[18:51:51] [aa] ❓ Unknown status: 
+[18:51:51] [bb] ❓ Unknown status: 

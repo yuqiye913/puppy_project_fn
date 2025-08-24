@@ -84,6 +84,7 @@ fun AuthScreen() {
                             if (response.isSuccessful) {
                                 val loginResponse = response.body()
                                 if (loginResponse != null) {
+                                    println("Auth: Login response - username: ${loginResponse.username}, userId: ${loginResponse.userId}")
                                     AuthState.login(
                                         loginResponse.authenticationToken, 
                                         loginResponse.username, 

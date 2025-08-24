@@ -140,8 +140,6 @@ data class ValidationErrorResponse(
     val fieldErrors: Map<String, String>? = null
 )
 
-
-
 data class FollowResponse(
     val message: String,
     val success: Boolean,
@@ -162,6 +160,7 @@ data class CommentResponse(
     val userName: String,
     val userDisplayName: String?,
     val userProfilePicture: String?,
+    val userId: Long, // Add user ID from backend
     val createdDate: Long,
     val voteCount: Int,
     val replyCount: Int,
@@ -182,6 +181,8 @@ data class LikeStatusResponse(
     val isLiked: Boolean,
     val likeCount: Int
 )
+
+
 
 interface ApiService {
     @POST("/api/posts")
@@ -270,6 +271,161 @@ interface ApiService {
         @Path("sessionId") sessionId: String,
         @Body signalingData: String
     ): Response<Void>
+
+    // WebRTC Signaling Endpoints
+    @POST("/api/webrtc/sessions")
+    suspend fun createWebRTCSession(
+        @Header("Authorization") token: String,
+        @Query("sessionId") sessionId: String
+    ): Response<WebRTCSignalingResponse>
+
+    @GET("/api/webrtc/config")
+    suspend fun getWebRTCConfig(
+        @Header("Authorization") token: String
+    ): Response<WebRTCSignalingResponse>
+
+    @POST("/api/webrtc/{sessionId}/offer")
+    suspend fun generateWebRTCOffer(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String
+    ): Response<WebRTCSessionDescriptionResponse>
+
+    @POST("/api/webrtc/{sessionId}/answer")
+    suspend fun generateWebRTCAnswer(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String,
+        @Body offerSdp: String
+    ): Response<WebRTCSessionDescriptionResponse>
+
+    @POST("/api/webrtc/{sessionId}/ice-candidate")
+    suspend fun addWebRTCCandidate(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String,
+        @Body candidate: WebRTCIceCandidateRequest
+    ): Response<Void>
+
+    @GET("/api/webrtc/{sessionId}/ice-candidates")
+    suspend fun getWebRTCCandidates(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String
+    ): Response<List<WebRTCIceCandidateResponse>>
+
+    @PUT("/api/webrtc/{sessionId}/session-description")
+    suspend fun updateWebRTCSessionDescription(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String,
+        @Body description: WebRTCSessionDescriptionRequest
+    ): Response<Void>
+
+    @GET("/api/webrtc/{sessionId}/session-description")
+    suspend fun getWebRTCSessionDescription(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String
+    ): Response<WebRTCSessionDescriptionResponse>
+
+    @GET("/api/webrtc/{sessionId}/active")
+    suspend fun isWebRTCSessionActive(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String
+    ): Response<Boolean>
+
+    @DELETE("/api/webrtc/{sessionId}")
+    suspend fun closeWebRTCSession(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String
+    ): Response<Void>
+
+    @GET("/api/webrtc/{sessionId}/poll")
+    suspend fun pollWebRTCUpdates(
+        @Header("Authorization") token: String,
+        @Path("sessionId") sessionId: String,
+        @Query("lastUpdate") lastUpdate: Long = 0
+    ): Response<WebRTCSignalingResponse>
+
+    // Random Video Call Endpoints
+    @POST("/api/random-video-calls/request")
+    suspend fun requestRandomVideoCall(
+        @Header("Authorization") token: String,
+        @Body request: RandomVideoCallRequest
+    ): Response<RandomVideoCallResponse>
+    
+    @GET("/api/random-video-calls/status/{requestId}")
+    suspend fun checkRandomVideoCallStatus(
+        @Header("Authorization") token: String,
+        @Path("requestId") requestId: String
+    ): Response<RandomVideoCallResponse>
+    
+    @DELETE("/api/random-video-calls/cancel/{requestId}")
+    suspend fun cancelRandomVideoCall(
+        @Header("Authorization") token: String,
+        @Path("requestId") requestId: String
+    ): Response<Void>
+    
+    @POST("/api/random-video-calls/accept/{requestId}")
+    suspend fun acceptRandomVideoCall(
+        @Header("Authorization") token: String,
+        @Path("requestId") requestId: String
+    ): Response<RandomVideoCallResponse>
+    
+    @POST("/api/random-video-calls/decline/{requestId}")
+    suspend fun declineRandomVideoCall(
+        @Header("Authorization") token: String,
+        @Path("requestId") requestId: String,
+        @Query("reason") reason: String? = null
+    ): Response<Void>
+    
+    @POST("/api/random-video-calls/end/{requestId}")
+    suspend fun endRandomVideoCall(
+        @Header("Authorization") token: String,
+        @Path("requestId") requestId: String
+    ): Response<RandomVideoCallResponse>
+    
+    @GET("/api/random-video-calls/statistics")
+    suspend fun getRandomVideoCallStatistics(
+        @Header("Authorization") token: String
+    ): Response<RandomVideoCallStatistics>
+    
+    @GET("/api/random-video-calls/recent/{userId}")
+    suspend fun getRecentRandomVideoCalls(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Long
+    ): Response<List<RandomVideoCallResponse>>
+    
+    @GET("/api/random-video-calls/active")
+    suspend fun getCurrentUserActiveRequest(
+        @Header("Authorization") token: String
+    ): Response<RandomVideoCallResponse>
+    
+    @PUT("/api/random-video-calls/preferences/{requestId}")
+    suspend fun updateRandomVideoCallPreferences(
+        @Header("Authorization") token: String,
+        @Path("requestId") requestId: String,
+        @Body preferences: RandomVideoCallRequest
+    ): Response<RandomVideoCallResponse>
+    
+    @POST("/api/random-video-calls/report/{requestId}")
+    suspend fun reportRandomVideoCallUser(
+        @Header("Authorization") token: String,
+        @Path("requestId") requestId: String,
+        @Query("reason") reason: String
+    ): Response<Void>
+    
+    @POST("/api/random-video-calls/block/{userId}")
+    suspend fun blockUserFromRandomCalls(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Long
+    ): Response<Void>
+    
+    @DELETE("/api/random-video-calls/block/{userId}")
+    suspend fun unblockUserFromRandomCalls(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Long
+    ): Response<Void>
+    
+    @GET("/api/random-video-calls/blocked-users")
+    suspend fun getBlockedUsersForRandomCalls(
+        @Header("Authorization") token: String
+    ): Response<List<Long>>
 
     @GET("/api/blocks/has-blocked/{userId}")
     suspend fun hasBlockedUser(

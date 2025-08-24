@@ -3,7 +3,6 @@ package com.vipulasri.jetinstagram.data
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.vipulasri.jetinstagram.model.Story
-import com.vipulasri.jetinstagram.model.currentUser
 import com.vipulasri.jetinstagram.model.names
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -17,7 +16,7 @@ object StoriesRepository {
 
     _stories.add(
         Story(
-            image = currentUser.image,
+            image = "https://randomuser.me/api/portraits/men/1.jpg",
             name = "Your Story"
         )
     )

@@ -9,50 +9,76 @@ import com.vipulasri.jetinstagram.network.VideoCallResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-// import org.webrtc.*  // Commented out due to WebRTC library issues
-import java.util.*
+import kotlinx.coroutines.delay
+import org.webrtc.*
 
 class VideoCallManager(
     private val context: Context,
     private val apiService: ApiService,
     private val authToken: String
 ) {
-    // WebRTC components - placeholder types for now
-    private var peerConnection: Any? = null
-    private var localVideoTrack: Any? = null
-    private var remoteVideoTrack: Any? = null
-    private var localAudioTrack: Any? = null
-    private var remoteAudioTrack: Any? = null
+    // Simplified WebRTC components for libjingle
+    private var peerConnection: PeerConnection? = null
+    private var localVideoTrack: VideoTrack? = null
+    private var remoteVideoTrack: VideoTrack? = null
+    private var localAudioTrack: AudioTrack? = null
+    private var remoteAudioTrack: AudioTrack? = null
     
-    private var eglBaseContext: Any? = null
-    private var localVideoCapturer: Any? = null
-    private var localVideoSource: Any? = null
-    private var localAudioSource: Any? = null
+    // Signaling manager for WebRTC communication
+    private val signalingManager = SignalingManager(apiService, authToken)
     
     private var sessionId: String? = null
+    private var roomId: String? = null
     private var isCallActive = false
     private var isMuted = false
     private var isVideoEnabled = true
     
-    private val peerConnectionFactory by lazy { createPeerConnectionFactory() }
-    
     // Callbacks
     var onCallStateChanged: ((CallState) -> Unit)? = null
-    var onRemoteVideoTrack: ((Any) -> Unit)? = null
-    var onRemoteAudioTrack: ((Any) -> Unit)? = null
+    var onRemoteVideoTrack: ((VideoTrack) -> Unit)? = null
+    var onRemoteAudioTrack: ((AudioTrack) -> Unit)? = null
     var onCallEnded: (() -> Unit)? = null
+    var onLocalVideoTrack: ((VideoTrack) -> Unit)? = null
     
     enum class CallState {
         IDLE, INITIATING, RINGING, CONNECTING, CONNECTED, ENDED, ERROR
     }
     
     fun initialize() {
-        // Simplified initialization
-        // Note: This is a placeholder implementation
-        Log.d(TAG, "VideoCallManager initialized")
+        try {
+            // For libjingle, we'll just log initialization
+            // The actual WebRTC initialization might be different
+            Log.d(TAG, "VideoCallManager initialized (libjingle)")
+            
+            // Set up signaling manager callbacks
+            signalingManager.onOfferReceived = { offer ->
+                Log.d(TAG, "Received offer from signaling")
+                handleRemoteOffer(offer)
+            }
+            
+            signalingManager.onAnswerReceived = { answer ->
+                Log.d(TAG, "Received answer from signaling")
+                handleRemoteAnswer(answer)
+            }
+            
+            signalingManager.onIceCandidateReceived = { candidate ->
+                Log.d(TAG, "Received ICE candidate from signaling")
+                handleRemoteIceCandidate(candidate)
+            }
+            
+            signalingManager.onSignalingError = { error ->
+                Log.e(TAG, "Signaling error: $error")
+                onCallStateChanged?.invoke(CallState.ERROR)
+            }
+            
+            onCallStateChanged?.invoke(CallState.IDLE)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error initializing VideoCallManager", e)
+            onCallStateChanged?.invoke(CallState.ERROR)
+        }
     }
     
-    fun initiateCall(caller: User, receiver: User, matchId: Long) {
+        fun initiateCall(caller: User, receiver: User, matchId: Long) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val request = VideoCallRequest(
@@ -66,19 +92,21 @@ class VideoCallManager(
                 
                 val response = apiService.initiateVideoCall(authToken, request)
                 val responseBody = response.body() ?: throw IllegalStateException("No response body received from server")
-                sessionId = responseBody.sessionId ?: throw IllegalStateException("No session ID received from server")
+                val newSessionId = responseBody.sessionId ?: throw IllegalStateException("No session ID received from server")
+                val newRoomId = responseBody.roomId
+                sessionId = newSessionId
+                roomId = newRoomId
                 
-                // Create local video track
-                createLocalVideoTrack()
+                // Set up signaling for this session
+                signalingManager.setSessionInfo(newSessionId, newRoomId ?: "")
+                signalingManager.createSession()
+                signalingManager.startPolling()
                 
-                // Create peer connection
-                createPeerConnection()
-                
-                // Generate offer - placeholder implementation
-                Log.d(TAG, "Generating offer")
-                // In real implementation, this would create and send an SDP offer
-                
+                Log.d(TAG, "Call initiated with session ID: $newSessionId, room: $newRoomId")
                 onCallStateChanged?.invoke(CallState.INITIATING)
+                
+                // Start WebRTC connection process
+                establishWebRTCConnection(newSessionId)
                 
             } catch (e: Exception) {
                 Log.e(TAG, "Error initiating call", e)
@@ -93,18 +121,19 @@ class VideoCallManager(
             try {
                 val response = apiService.acceptVideoCall(authToken, sessionId)
                 val responseBody = response.body() ?: throw IllegalStateException("No response body received from server")
+                val newRoomId = responseBody.roomId
+                roomId = newRoomId
                 
-                // Create local video track
-                createLocalVideoTrack()
+                // Set up signaling for this session
+                signalingManager.setSessionInfo(sessionId, newRoomId ?: "")
+                signalingManager.createSession()
+                signalingManager.startPolling()
                 
-                // Create peer connection
-                createPeerConnection()
+                Log.d(TAG, "Call accepted with session ID: $sessionId, room: $newRoomId")
+                onCallStateChanged?.invoke(CallState.INITIATING)
                 
-                // Set remote description from offer - placeholder implementation
-                Log.d(TAG, "Setting remote description")
-                // In real implementation, this would handle SDP offer/answer exchange
-                
-                onCallStateChanged?.invoke(CallState.CONNECTING)
+                // Start WebRTC connection process
+                establishWebRTCConnection(sessionId)
                 
             } catch (e: Exception) {
                 Log.e(TAG, "Error accepting call", e)
@@ -135,6 +164,9 @@ class VideoCallManager(
             }
         }
         
+        // Close signaling session
+        signalingManager.closeSession()
+        
         cleanup()
         onCallStateChanged?.invoke(CallState.ENDED)
         onCallEnded?.invoke()
@@ -142,111 +174,82 @@ class VideoCallManager(
     
     fun toggleMute() {
         isMuted = !isMuted
-        // Placeholder implementation - in real WebRTC, this would enable/disable audio track
+        // For now, just log the state change
         Log.d(TAG, "Audio ${if (isMuted) "muted" else "unmuted"}")
     }
     
     fun toggleVideo() {
         isVideoEnabled = !isVideoEnabled
-        // Placeholder implementation - in real WebRTC, this would enable/disable video track
+        // For now, just log the state change
         Log.d(TAG, "Video ${if (isVideoEnabled) "enabled" else "disabled"}")
     }
     
     fun switchCamera() {
-        // Camera switching functionality - simplified for now
+        // Simplified camera switching - just log for now
         Log.d(TAG, "Camera switching requested")
-        // Note: Camera switching requires proper WebRTC implementation
-        // This is a placeholder for the camera switching functionality
-    }
-    
-    private fun createPeerConnectionFactory(): Any {
-        // Simplified PeerConnectionFactory creation
-        // Note: This is a placeholder implementation
-        // In a real implementation, proper WebRTC initialization would be needed
-        Log.d(TAG, "Creating PeerConnectionFactory")
-        // Placeholder return - in real implementation, this would create an actual factory
-        return Any() // Placeholder object
-    }
-    
-    private fun createLocalVideoTrack() {
-        // Simplified video track creation
-        // Note: This is a placeholder implementation
-        Log.d(TAG, "Creating local video track")
-        // In a real implementation, proper video capture would be set up
-    }
-    
-    private fun createLocalAudioTrack() {
-        // Simplified audio track creation
-        // Note: This is a placeholder implementation
-        Log.d(TAG, "Creating local audio track")
-        // In a real implementation, proper audio capture would be set up
-    }
-    
-    private fun createCameraCapturer(surfaceTextureHelper: Any): Any? {
-        // Simplified camera capturer creation
-        // Note: This is a placeholder implementation
-        Log.d(TAG, "Creating camera capturer")
-        return null // Placeholder return
-    }
-    
-    private fun createPeerConnection() {
-        // Simplified peer connection creation
-        // Note: This is a placeholder implementation
-        Log.d(TAG, "Creating peer connection")
-        // In real implementation, this would create a WebRTC peer connection
-    }
-    
-    private fun sendOfferToBackend(offerSdp: Any) {
-        sessionId?.let { sessionId ->
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    // Placeholder implementation
-                    Log.d(TAG, "Sending offer to backend")
-                } catch (e: Exception) {
-                    Log.e(TAG, "Error sending offer to backend", e)
-                }
-            }
-        }
-    }
-    
-    private fun sendAnswerToBackend(answerSdp: Any) {
-        sessionId?.let { sessionId ->
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    // Placeholder implementation
-                    Log.d(TAG, "Sending answer to backend")
-                } catch (e: Exception) {
-                    Log.e(TAG, "Error sending answer to backend", e)
-                }
-            }
-        }
-    }
-    
-    private fun sendIceCandidate(candidate: Any) {
-        sessionId?.let { sessionId ->
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    // Placeholder implementation
-                    Log.d(TAG, "Sending ICE candidate to backend")
-                } catch (e: Exception) {
-                    Log.e(TAG, "Error sending ICE candidate to backend", e)
-                }
-            }
-        }
     }
     
     private fun cleanup() {
-        // Simplified cleanup
-        // Note: This is a placeholder implementation
-        Log.d(TAG, "Cleaning up video call resources")
-        
-        localVideoTrack = null
-        remoteVideoTrack = null
-        localAudioTrack = null
-        remoteAudioTrack = null
-        peerConnection = null
-        sessionId = null
-        isCallActive = false
+        try {
+            localVideoTrack = null
+            remoteVideoTrack = null
+            localAudioTrack = null
+            remoteAudioTrack = null
+            peerConnection = null
+            sessionId = null
+            roomId = null
+            isCallActive = false
+            
+            Log.d(TAG, "Video call resources cleaned up")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error during cleanup", e)
+        }
+    }
+    
+    // WebRTC connection establishment
+    private fun establishWebRTCConnection(sessionId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.d(TAG, "Establishing WebRTC connection for session: $sessionId")
+                onCallStateChanged?.invoke(CallState.CONNECTING)
+                
+                // Simulate WebRTC connection process
+                // In a real implementation, this would involve:
+                // 1. Creating PeerConnection
+                // 2. Adding local media streams
+                // 3. Creating and sending offer/answer
+                // 4. Exchanging ICE candidates
+                
+                delay(2000) // Simulate connection time
+                
+                // For now, simulate successful connection
+                Log.d(TAG, "WebRTC connection established (simulated)")
+                onCallStateChanged?.invoke(CallState.CONNECTED)
+                
+            } catch (e: Exception) {
+                Log.e(TAG, "Error establishing WebRTC connection", e)
+                onCallStateChanged?.invoke(CallState.ERROR)
+            }
+        }
+    }
+    
+    // WebRTC signaling handlers
+    private fun handleRemoteOffer(offer: SessionDescription) {
+        // In a real implementation, you would set the remote description
+        Log.d(TAG, "Handling remote offer")
+        // TODO: Implement actual WebRTC offer handling
+    }
+    
+    private fun handleRemoteAnswer(answer: SessionDescription) {
+        // In a real implementation, you would set the remote description
+        Log.d(TAG, "Handling remote answer")
+        // TODO: Implement actual WebRTC answer handling
+    }
+    
+    private fun handleRemoteIceCandidate(candidate: IceCandidate) {
+        // In a real implementation, you would add the ICE candidate
+        Log.d(TAG, "Handling remote ICE candidate")
+        // TODO: Implement actual WebRTC ICE candidate handling
     }
     
     companion object {

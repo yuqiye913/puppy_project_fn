@@ -6,7 +6,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,11 +21,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.graphics.vector.ImageVector
+import org.webrtc.VideoTrack
+import com.vipulasri.jetinstagram.videocall.VideoCallManager
+import com.vipulasri.jetinstagram.network.RetrofitInstance
+import com.vipulasri.jetinstagram.ui.auth.AuthState
+import com.vipulasri.jetinstagram.ui.videocall.rememberVideoCallPermissions
+import android.util.Log
+import kotlinx.coroutines.delay
 
 @Composable
 fun VideoCallScreen(
-    matchId: Long,
-    userId: Long,
+    sessionId: String,
+    roomId: String,
+    peerId: String,
+    signalingData: String,
     onEndCall: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
@@ -31,13 +42,55 @@ fun VideoCallScreen(
     var isVideoEnabled by remember { mutableStateOf(true) }
     var isCameraSwitched by remember { mutableStateOf(false) }
     var showEndCallDialog by remember { mutableStateOf(false) }
+    var callState by remember { mutableStateOf(VideoCallManager.CallState.CONNECTING) }
+    
+    var localVideoTrack by remember { mutableStateOf<VideoTrack?>(null) }
+    var remoteVideoTrack by remember { mutableStateOf<VideoTrack?>(null) }
     
     val context = LocalContext.current
     
-    // Request permissions when screen loads
+    // Create VideoCallManager
+    val videoCallManager = remember {
+        VideoCallManager(
+            context = context,
+            apiService = RetrofitInstance.api,
+            authToken = AuthState.currentToken ?: ""
+        )
+    }
+    
+    // Request permissions
+    val permissions = rememberVideoCallPermissions()
+    
+    // Initialize video call manager
     LaunchedEffect(Unit) {
-        // TODO: Request camera and microphone permissions
-        println("Requesting camera and microphone permissions")
+        // Request permissions first
+        permissions.requestPermissions()
+        
+        // Initialize video call manager after permissions are granted
+        if (permissions.allPermissionsGranted) {
+            videoCallManager.initialize()
+            
+            // Set up callbacks
+            videoCallManager.onCallStateChanged = { state ->
+                Log.d("VideoCallScreen", "Call state changed to: $state")
+                callState = state
+            }
+            
+            videoCallManager.onLocalVideoTrack = { track ->
+                Log.d("VideoCallScreen", "Local video track received")
+                localVideoTrack = track
+            }
+            
+            videoCallManager.onRemoteVideoTrack = { track ->
+                Log.d("VideoCallScreen", "Remote video track received")
+                remoteVideoTrack = track
+            }
+            
+            videoCallManager.onCallEnded = {
+                Log.d("VideoCallScreen", "Call ended")
+                onEndCall()
+            }
+        }
     }
     
     Box(
@@ -50,28 +103,39 @@ fun VideoCallScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            // Placeholder for remote video
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFF1A1A1A)),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+            if (remoteVideoTrack != null) {
+                // Show remote video
+                RemoteVideoView(
+                    videoTrack = remoteVideoTrack,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                // Show connecting state
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0xFF1A1A1A)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "Remote User",
-                        modifier = Modifier.size(80.dp),
-                        tint = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "Connecting...",
-                        style = MaterialTheme.typography.h6,
-                        color = Color.White
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator(
+                            color = Color.White,
+                            modifier = Modifier.size(60.dp)
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = when (callState) {
+                                VideoCallManager.CallState.CONNECTING -> "Connecting..."
+                                VideoCallManager.CallState.CONNECTED -> "Connected"
+                                VideoCallManager.CallState.ERROR -> "Connection Error"
+                                else -> "Initializing..."
+                            },
+                            style = MaterialTheme.typography.h6,
+                            color = Color.White
+                        )
+                    }
                 }
             }
         }
@@ -85,20 +149,19 @@ fun VideoCallScreen(
                 .background(Color(0xFF2A2A2A)),
             contentAlignment = Alignment.Center
         ) {
-            if (isVideoEnabled) {
-                // Placeholder for local video
+            if (localVideoTrack != null && isVideoEnabled) {
+                // Show local video
+                LocalVideoView(
+                    videoTrack = localVideoTrack,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                // Show placeholder
                 Icon(
-                    imageVector = Icons.Default.Person,
+                    imageVector = if (isVideoEnabled) Icons.Default.Person else Icons.Default.Call,
                     contentDescription = "Local Video",
                     modifier = Modifier.size(40.dp),
                     tint = Color.White
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Default.Call,
-                    contentDescription = "Video Disabled",
-                    modifier = Modifier.size(40.dp),
-                    tint = Color.Gray
                 )
             }
         }
@@ -112,7 +175,12 @@ fun VideoCallScreen(
         ) {
             // Call status
             Text(
-                text = "Video Call",
+                text = when (callState) {
+                    VideoCallManager.CallState.CONNECTING -> "Connecting..."
+                    VideoCallManager.CallState.CONNECTED -> "Video Call"
+                    VideoCallManager.CallState.ERROR -> "Connection Error"
+                    else -> "Initializing..."
+                },
                 style = MaterialTheme.typography.h6,
                 color = Color.White,
                 textAlign = TextAlign.Center,
@@ -130,21 +198,30 @@ fun VideoCallScreen(
                 CallButton(
                     icon = Icons.Default.Call,
                     backgroundColor = if (isMuted) Color.Red else Color.White,
-                    onClick = { isMuted = !isMuted }
+                    onClick = { 
+                        isMuted = !isMuted
+                        videoCallManager.toggleMute()
+                    }
                 )
                 
                 // Video toggle button
                 CallButton(
                     icon = Icons.Default.Call,
                     backgroundColor = if (isVideoEnabled) Color.White else Color.Red,
-                    onClick = { isVideoEnabled = !isVideoEnabled }
+                    onClick = { 
+                        isVideoEnabled = !isVideoEnabled
+                        videoCallManager.toggleVideo()
+                    }
                 )
                 
                 // Camera switch button
                 CallButton(
                     icon = Icons.Default.Call,
                     backgroundColor = Color.White,
-                    onClick = { isCameraSwitched = !isCameraSwitched }
+                    onClick = { 
+                        isCameraSwitched = !isCameraSwitched
+                        videoCallManager.switchCamera()
+                    }
                 )
                 
                 // End call button
@@ -219,6 +296,7 @@ fun VideoCallScreen(
                         Button(
                             onClick = {
                                 showEndCallDialog = false
+                                videoCallManager.endCall()
                                 onEndCall()
                             },
                             colors = ButtonDefaults.buttonColors(

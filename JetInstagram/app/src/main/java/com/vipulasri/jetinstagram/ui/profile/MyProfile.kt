@@ -49,6 +49,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineScope
 import androidx.compose.runtime.rememberCoroutineScope
 
 @ExperimentalFoundationApi
@@ -58,7 +59,8 @@ fun MyProfile(
     onBackClick: () -> Unit = {}, 
     onPostClick: ((Post) -> Unit)? = null,
     onBlockedUsersClick: () -> Unit = {},
-    isViewingBlockedUsers: Boolean = false
+    isViewingBlockedUsers: Boolean = false,
+    showBackButton: Boolean = false
 ) {
     val userPosts by ProfileRepository.userPosts
     val isLoading by ProfileRepository.isLoading
@@ -111,12 +113,14 @@ fun MyProfile(
                     backgroundColor = Color.White,
                     elevation = 0.dp,
                     navigationIcon = {
-                        IconButton(onClick = onBackClick) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Back",
-                                tint = Color.Black
-                            )
+                        if (showBackButton) {
+                            IconButton(onClick = onBackClick) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBack,
+                                    contentDescription = "Back",
+                                    tint = Color.Black
+                                )
+                            }
                         }
                     },
                     title = {
@@ -170,7 +174,7 @@ fun MyProfile(
                 }
             }
             
-            ProfilePostsGrid(userPosts, user, listState, isLoading, hasMorePages, onPostClick)
+            ProfilePostsGrid(userPosts, user, listState, isLoading, hasMorePages, onPostClick, coroutineScope)
         }
         }
     }
@@ -392,7 +396,8 @@ private fun ProfilePostsGrid(
     listState: LazyListState,
     isLoading: Boolean,
     hasMorePages: Boolean,
-    onPostClick: ((Post) -> Unit)? = null
+    onPostClick: ((Post) -> Unit)? = null,
+    coroutineScope: CoroutineScope
 ) {
     if (posts.isEmpty() && !isLoading) {
         EmptyPostsState(user)
@@ -414,6 +419,11 @@ private fun ProfilePostsGrid(
                     },
                     onHashtagClick = { hashtag ->
                         // This will be handled by MainScreen
+                    },
+                    onLikeToggleApi = { postId, shouldLike ->
+                        coroutineScope.launch {
+                            ProfileRepository.votePost(postId, shouldLike)
+                        }
                     },
                     onCommentClick = { clickedPost ->
                         onPostClick?.invoke(clickedPost)

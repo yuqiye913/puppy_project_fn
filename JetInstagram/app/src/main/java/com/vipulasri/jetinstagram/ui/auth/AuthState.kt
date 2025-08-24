@@ -14,11 +14,15 @@ object AuthState {
     var currentRefreshToken by mutableStateOf<String?>(null)
     
     fun login(token: String, username: String, userId: Long, refreshToken: String? = null) {
+        println("AuthState: login called with username: $username, userId: $userId")
         currentToken = token
         currentUsername = username
         currentUserId = userId
         currentRefreshToken = refreshToken
         isLoggedIn = true
+        
+        // Save to persistent storage
+        TokenStorage.saveAuthData(token, refreshToken, username, userId)
         
         // Initialize token manager for auto-refresh
         if (refreshToken != null && username.isNotEmpty()) {
@@ -32,6 +36,9 @@ object AuthState {
         currentUserId = null
         currentRefreshToken = null
         isLoggedIn = false
+        
+        // Clear persistent storage
+        TokenStorage.clearAuthData()
         
         // Clear token manager
         TokenManager.clear()
@@ -48,5 +55,31 @@ object AuthState {
      */
     fun updateToken(newToken: String) {
         currentToken = newToken
+        TokenStorage.updateToken(newToken)
+    }
+    
+    /**
+     * Restore auth data from persistent storage
+     */
+    fun restoreAuthData() {
+        println("AuthState: restoreAuthData called")
+        if (TokenStorage.isLoggedIn()) {
+            currentToken = TokenStorage.getAuthToken()
+            currentUsername = TokenStorage.getUsername()
+            currentUserId = TokenStorage.getUserId()
+            currentRefreshToken = TokenStorage.getRefreshToken()
+            isLoggedIn = true
+            
+            println("AuthState: restoreAuthData - currentUserId set to: $currentUserId")
+            
+            // Initialize token manager if we have refresh token
+            val refreshToken = currentRefreshToken
+            val username = currentUsername
+            if (refreshToken != null && username != null) {
+                TokenManager.initialize(refreshToken, username)
+            }
+        } else {
+            println("AuthState: restoreAuthData - not logged in")
+        }
     }
 } 

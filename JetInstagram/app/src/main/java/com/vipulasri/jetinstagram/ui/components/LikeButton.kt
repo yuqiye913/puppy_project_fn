@@ -119,6 +119,7 @@ private fun LikeButtonPreview() {
       title = "Coffee Post", // Add title
       text = "Just had the most amazing coffee this morning! ☕️",
       user = User(
+        id = 999L, // Mock user ID for preview
         name = names.first(),
         username = names.first(),
         image = "https://randomuser.me/api/portraits/men/1.jpg"

@@ -152,7 +152,7 @@ class CommentsRepository {
             id = this.id.toInt(),
             text = this.text,
             user = User(
-                id = 0L, // We don't have user ID in the response, using 0 as default
+                id = this.userId, // Use the real user ID from backend
                 name = this.userDisplayName ?: this.userName,
                 username = this.userName,
                 image = this.userProfilePicture ?: "https://randomuser.me/api/portraits/men/1.jpg"

@@ -57,7 +57,8 @@ fun SinglePostScreen(
     onUserAvatarClick: ((User) -> Unit)? = null,
     onHashtagClick: ((String) -> Unit)? = null,
     onLikeToggle: (Post) -> Unit = {},
-    onLikeToggleApi: ((Long, Boolean) -> Unit)? = null
+    onLikeToggleApi: ((Long, Boolean) -> Unit)? = null,
+    onPostClick: ((Post) -> Unit)? = null
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()

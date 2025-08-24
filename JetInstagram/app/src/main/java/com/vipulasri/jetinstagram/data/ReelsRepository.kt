@@ -17,6 +17,7 @@ object ReelsRepository {
           id = index + 1,
           video = videos[index],
           user = User(
+              id = (index + 10).toLong(), // Use unique IDs for reel users
               name = names[index],
               username = names[index],
               image = "https://randomuser.me/api/portraits/men/${index + 1}.jpg"

@@ -1,7 +1,7 @@
 package com.vipulasri.jetinstagram.buildsrc
 
 object Libs {
-  const val androidGradlePlugin = "com.android.tools.build:gradle:8.1.0"
+  const val androidGradlePlugin = "com.android.tools.build:gradle:8.2.2"
   const val junit = "junit:junit:4.13"
 
   const val exoplayer = "com.google.android.exoplayer:exoplayer:2.19.1"
